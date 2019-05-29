@@ -1,29 +1,60 @@
-pragma solidity >=0.4.21 <0.6.0
+pragma solidity >=0.4.21 <0.6.0;
 
-contract Lottery {    
-    address public owner;
-    
+// A proposal for random issue
+// --> SHA256(2bits from MSB of block number after some interval) % 50
+
+contract Lottery {
+    address public owner;                           // Address of contract owner
+    uint reward;                                    // Smount of money that will be given to winner of lottery
+    uint private _head;                             // head index for queue
+    uint private _tail;                             // tail index for queue
+    mapping(uint => BettorInfo) private bets;       // self made queue for saving bettors' information
+    uint constant BET_AMOUNT = 0.005 ether;         // bet amount will be fixed, may be changed
+
+    enum LotteryState {opened, closed}
+    LotteryState state;
+
     constructor() public {
-        owner = msg.sender;        
+        owner = msg.sender;
+        state = LotteryState.closed;
     }
 
     modifier onlyOwner {
-        require(msg.sender == owner);
+        require(msg.sender == owner, "You are not owner");
+        _;
+    }
+
+    modifier IsLotteryOpen {
+        require(state == LotteryState.close);
+        _;
+    }
+
+    modifier IsLotteryClose {
+        require(state == LotteryState.opened);
         _;
     }
 
     struct BettorInfo {
+        address payable bettor_address;
 
+        // what to submit?
+        
     }
 
-    uint reward;                              // amount of money that will be sent to winner of lottery
-    uint private _head, _tail;                // head and tail value for queue
-    mapping(uint => BettorInfo) private bets; // self made queue for saving bettors' information
 
-    const uint BET_AMOUNT = 0.05 ether;       // bet amount will be fixed, may be changed
+    // Start the lottery
+    function openLottery() IsLotteryClose onlyOwner public returns (bool) {
+        state = LotteryState.opened;
+        return true;
+    }
 
+    // End the lottery
+    function closeLottery() IsLotteryOpen onlyOwner public returns (bool) {
+        state = LotteryState.closed;
+        return true;
+    }
 
-    // return current reward
+    // Return current reward
     function getReward() public returns (uint) {
         return reward;
     }
@@ -71,6 +102,5 @@ contract Lottery {
     function show_all() public returns () onlyOnwer{
 
     }
-
 
 }
