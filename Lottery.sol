@@ -4,7 +4,7 @@ contract Lottery {
     address public owner;
     
     constructor() public {
-        owenr = msg.sender;        
+        owner = msg.sender;        
     }
 
     modifier onlyOwner {
