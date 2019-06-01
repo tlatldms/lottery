@@ -15,10 +15,10 @@ contract LotteryToken is ERC20 {
 	string public name = "Lottery Token";
 	string public symbol = "LTK";
 	uint8 public decimals = 0;
-
+    address public Owner;
 	uint256 totalToken;
 
-    mapping(address => uint256) balance;
+    mapping(address => uint256) balances;
     mapping(address => mapping(address => uint256)) shared;
 
     constructor() public {
@@ -27,7 +27,7 @@ contract LotteryToken is ERC20 {
         name = "Lottery";
         decimals = 0;
         totalToken = 100000;
-        balance[Owner] = totalToken;
+        balances[Owner] = totalToken;
     }
 
     function totalSupply() external view returns (uint256){
@@ -36,7 +36,7 @@ contract LotteryToken is ERC20 {
 
     function balanceOf(address who) external view returns (uint256){
         require(who != address(0));
-        return balance[who];
+        return balances[who];
     }
 
     function allowance(address owner, address spender) external view returns (uint256){
@@ -45,10 +45,10 @@ contract LotteryToken is ERC20 {
 
     function transfer(address to, uint256 value) external returns (bool){
         require(to != address(0));
-        require(value <= balance[msg.sender]);
+        require(value <= balances[msg.sender]);
 
-        balance[msg.sender] -= value;
-        balance[to] += value;
+        balances[msg.sender] -= value;
+        balances[to] += value;
         emit Transfer(msg.sender, to, value);
         return true;
     }
@@ -63,10 +63,11 @@ contract LotteryToken is ERC20 {
 
     function transferFrom(address from, address to, uint256 value) external returns (bool){
         require(to != address(0));
-        require(value >= 0 && balance[from] <= value && value <= 2^256-1);
-        balance[from] -= value;
+        require(value >= 0 && value <= 2^256-1 && value <= balances[from]);
+        require(value <= shared[from][msg.sender]);
+        balances[from] -= value;
         shared[from][msg.sender] -= value;
-        balance[to] += value;
+        balances[to] += value;
 
         emit Transfer(from, to, value);
         return true;
@@ -79,12 +80,12 @@ contract LotteryToken is ERC20 {
 
 
 contract Lottery {
-    address public owner;                           // Address of contract owner
+    address payable public owner;                   // Address of contract owner
     uint private reward;                            // Amount of money that will be given to winner of lottery
     uint private _head;                             // head index for queue
     uint private _tail;                             // tail index for queue
     mapping(uint => BettorInfo) private bets;       // self made queue for saving bettors' information
-    uint constant BET_AMOUNT = 0.005 ether;         // bet amount will be fixed, may be changed
+    uint BET_AMOUNT = 0.005 ether * rate;           // bet amount will be fixed, may be changed
     //uint constant BLOCK_INTERVAL = 256;
     enum LotteryState {opened, closed}
     LotteryState state;
@@ -103,8 +104,7 @@ contract Lottery {
 		rate = _rate;
 		_head = 0;
 		_tail = 0;
-
-	//	token.approve(owner, 500);
+	    token.approve(owner, 100000);
     }
 
     modifier onlyOwner {
@@ -129,16 +129,17 @@ contract Lottery {
     }
 
 	// Token
-
-	function buyToken() public payable {
+	function BuyToken() public payable {
         require(msg.value > 0 ether);
-        owner.transfer(msg.value);
-        myToken.transferFrom(owner, msg.sender, msg.value * rate);
+        // owner.transfer(msg.value);
+        token.transferFrom(owner, msg.sender, msg.value * rate);
     }
 
     function withdraw(uint256 value) public payable onlyOwner {
         owner.transfer(value);
     }
+    
+    
     // Start the lottery
     function OpenLottery() IsLotteryClose onlyOwner public returns (bool) {
         state = LotteryState.opened;
@@ -158,16 +159,19 @@ contract Lottery {
 
     function Bet(uint[6] memory betting_numbers) public payable returns (bool) {
         // check correct bet amount
-        require(msg.value == BET_AMOUNT, "Not Enough ETH");
+        // require(msg.value == BET_AMOUNT);
+        require(token.balanceOf(msg.sender) >= BET_AMOUNT, "Not Enough Token");
+        token.transferFrom(msg.sender, owner, BET_AMOUNT);
         
         // push the bet to the queue
         bets[_tail].bettor_address = msg.sender;
-        bets[_tail].amount = msg.value;
+        // bets[_tail].amount = msg.value;
+        bets[_tail].amount = BET_AMOUNT;
         for(uint i=0; i < 6; i++) {
             bets[_tail].numbers[i] = betting_numbers[i];
         }
         _tail++;
-        reward += msg.value;
+        reward += BET_AMOUNT;
         // event log
         emit BET(_tail-1, bets[_tail-1].bettor_address, bets[_tail-1].amount, bets[_tail-1].numbers);
         return true;
@@ -197,7 +201,8 @@ contract Lottery {
         if(winner_address == address(0)) {
             retval = false;
         } else {
-            winner_address.transfer(reward);
+            // winner_address.transfer(reward);
+            token.transferFrom(owner, winner_address, reward);
             retval = true;
         }
 
@@ -228,6 +233,7 @@ contract Lottery {
         }
     }
     
+    // **********************TODO***********************
     function random() private view returns (uint[6] memory) {
         //return uint8(uint256(keccak256(block.timestamp)) % 50);
     }
@@ -235,5 +241,6 @@ contract Lottery {
     function () external payable { }
     
 }
+
 
 
