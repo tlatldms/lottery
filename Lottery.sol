@@ -1,5 +1,82 @@
 pragma solidity >=0.4.21 <0.6.0;
 
+interface ERC20 {
+	function totalSupply() external view returns (uint256);
+	function balanceOf(address who) external view returns (uint256);
+	function allowance(address owner, address spender) external view returns (uint256);
+	function transfer(address to, uint256 value) external returns (bool);
+	function approve(address spender, uint256 value) external returns (bool);
+	function transferFrom(address from, address to, uint256 value) external returns (bool);
+	event Transfer(address indexed from, address indexed to, uint256 value);
+	event Approval(address indexed owner, address indexed spender, uint256 value); 
+}
+
+contract LotteryToken is ERC20 {
+	string public name = "Lottery Token";
+	string public symbol = "LTK";
+	uint8 public decimals = 0;
+
+	uint256 totalToken;
+
+    mapping(address => uint256) balance;
+    mapping(address => mapping(address => uint256)) shared;
+
+    constructor() public {
+        Owner = msg.sender;
+        symbol = "LTK";
+        name = "Lottery";
+        decimals = 0;
+        totalToken = 100000;
+        balance[Owner] = totalToken;
+    }
+
+    function totalSupply() external view returns (uint256){
+        return totalToken;
+    }
+
+    function balanceOf(address who) external view returns (uint256){
+        require(who != address(0));
+        return balance[who];
+    }
+
+    function allowance(address owner, address spender) external view returns (uint256){
+        return shared[owner][spender];
+    }
+
+    function transfer(address to, uint256 value) external returns (bool){
+        require(to != address(0));
+        require(value <= balance[msg.sender]);
+
+        balance[msg.sender] -= value;
+        balance[to] += value;
+        emit Transfer(msg.sender, to, value);
+        return true;
+    }
+
+    function approve(address spender, uint256 value) external returns (bool){
+        require(spender != address(0));
+        shared[msg.sender][spender] = value;
+
+        emit Approval(msg.sender, spender, value);
+        return true;
+    }
+
+    function transferFrom(address from, address to, uint256 value) external returns (bool){
+        require(to != address(0));
+        require(value >= 0 && balance[from] <= value && value <= 2^256-1);
+        balance[from] -= value;
+        shared[from][msg.sender] -= value;
+        balance[to] += value;
+
+        emit Transfer(from, to, value);
+        return true;
+    }
+
+    event Transfer(address indexed from, address indexed to, uint256 value);
+    event Approval(address indexed owner, address indexed spender, uint256 value);
+
+}
+
 
 contract Lottery {
     address public owner;                           // Address of contract owner
@@ -9,17 +86,25 @@ contract Lottery {
     mapping(uint => BettorInfo) private bets;       // self made queue for saving bettors' information
     uint constant BET_AMOUNT = 0.005 ether;         // bet amount will be fixed, may be changed
     //uint constant BLOCK_INTERVAL = 256;
-    
     enum LotteryState {opened, closed}
     LotteryState state;
 
-    event BET(uint index, address payable bettor_address, uint amount, uint[6] numbers);
+	LotteryToken token;
+	uint256 rate;
+    
+	event BET(uint index, address payable bettor_address, uint amount, uint[6] numbers);
     event CHECKBET(uint index, address payable bettor_address, uint amount, uint[6] numbers);
 
-
-    constructor() public {
+	
+    constructor(address _LotteryToken, uint256 _rate) public {
         owner = msg.sender;
         state = LotteryState.closed;
+		token = LotteryToken(_LotteryToken);
+		rate = _rate;
+		_head = 0;
+		_tail = 0;
+
+	//	token.approve(owner, 500);
     }
 
     modifier onlyOwner {
@@ -43,7 +128,17 @@ contract Lottery {
         uint[6] numbers;
     }
 
+	// Token
 
+	function buyToken() public payable {
+        require(msg.value > 0 ether);
+        owner.transfer(msg.value);
+        myToken.transferFrom(owner, msg.sender, msg.value * rate);
+    }
+
+    function withdraw(uint256 value) public payable onlyOwner {
+        owner.transfer(value);
+    }
     // Start the lottery
     function OpenLottery() IsLotteryClose onlyOwner public returns (bool) {
         state = LotteryState.opened;
@@ -140,3 +235,5 @@ contract Lottery {
     function () external payable { }
     
 }
+
+
