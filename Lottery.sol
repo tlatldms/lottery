@@ -1,11 +1,9 @@
 pragma solidity >=0.4.21 <0.6.0;
 
-// A proposal for random issue
-// --> SHA256(2bits from MSB of block number after some interval) % 50
 
 contract Lottery {
     address public owner;                           // Address of contract owner
-    uint private reward;                                    // Amount of money that will be given to winner of lottery
+    uint private reward;                            // Amount of money that will be given to winner of lottery
     uint private _head;                             // head index for queue
     uint private _tail;                             // tail index for queue
     mapping(uint => BettorInfo) private bets;       // self made queue for saving bettors' information
@@ -63,8 +61,6 @@ contract Lottery {
         return reward;
     }
 
-    // function for betting
-    // 무엇으로 배팅을 할건지를 바탕으로 param이 정해져야함
     function Bet(uint[5] memory betting_numbers) public payable returns (bool) {
         // check correct bet amount
         require(msg.value == BET_AMOUNT, "Not Enough ETH");
@@ -76,23 +72,47 @@ contract Lottery {
             bets[_tail].numbers[i] = betting_numbers[i];
         }
         _tail++;
-        
+        reward += msg.value;
         // event log
-        emit BET(_tail - 1, bets[_tail-1].bettor_address, bets[_tail-1].amount, bets[_tail].numbers);
+        emit BET(_tail-1, bets[_tail-1].bettor_address, bets[_tail-1].amount, bets[_tail-1].numbers);
         return true;
     }
 
     // function for distributing the reward
-    // 베팅의 결과를 확인하는 function
-    // 한 사람이 여러 값을 배팅했다면 한번에 확인할 수 있도록 이벤트를 찍어주도록 할 것
-    function Distribute() public {
+    // if true, there is winner, if false, there is no winner
+    function Distribute() onlyOwner IsLotteryClose public returns (bool){
+        uint[5] memory answer = random();
+        // address payable winner_address;
+        address payable winner_address;
+        uint flag;
+        bool retval;
+        
         // win
+        for(uint i=_head; i<_tail; i++) {
+            flag = 0;
+            for(uint j=0; j<5; j++){
+                if(bets[i].numbers[j] != answer[j]) break;
+                else flag++;
+            }
+            if(flag == 5) {
+                winner_address = bets[i].bettor_address;
+            }
+        }
+        
+        if(winner_address == address(0)) {
+            retval = false;
+        } else {
+            winner_address.transfer(reward);
+            retval = true;
+        }
 
-        // lose
-
-        // draw
-
-        // pop from bet queue
+        // clear bet queue
+        for(uint i=_head; i<_tail; i++) {
+            delete bets[i];
+        }
+        _head = 0;
+        _tail = 0;
+        return retval;
     }
 
     // address, betting information, timestamp?
@@ -106,14 +126,14 @@ contract Lottery {
         return false;
     }
 
-
-
     // event log를 통해 현재 배팅한 사람들의 배팅정보를 볼 수 있는 함수
-    function ShowAll() onlyOwner public returns (bool) {
-
+    function ShowAll() onlyOwner public {
+        for(uint i=_head; i<_tail; i++) {
+            emit CHECKBET(i, bets[i].bettor_address, bets[i].amount, bets[i].numbers);
+        }
     }
     
-    function random() private view returns (uint8) {
+    function random() private view returns (uint[5] memory) {
         //return uint8(uint256(keccak256(block.timestamp)) % 50);
     }
     
