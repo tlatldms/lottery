@@ -5,14 +5,19 @@ pragma solidity >=0.4.21 <0.6.0;
 
 contract Lottery {
     address public owner;                           // Address of contract owner
-    uint reward;                                    // Smount of money that will be given to winner of lottery
+    uint private reward;                                    // Amount of money that will be given to winner of lottery
     uint private _head;                             // head index for queue
     uint private _tail;                             // tail index for queue
     mapping(uint => BettorInfo) private bets;       // self made queue for saving bettors' information
     uint constant BET_AMOUNT = 0.005 ether;         // bet amount will be fixed, may be changed
-
+    uint constant BLOCK_INTERVAL = 256;
+    
     enum LotteryState {opened, closed}
     LotteryState state;
+
+    event BET(uint index, address payable bettor_address, uint amount, uint[5] numbers);
+    event CHECKBET(uint index, address payable bettor_address, uint amount, uint[5] numbers);
+
 
     constructor() public {
         owner = msg.sender;
@@ -25,56 +30,62 @@ contract Lottery {
     }
 
     modifier IsLotteryOpen {
-        require(state == LotteryState.close);
+        require(state == LotteryState.closed, "Lottery is open now");
         _;
     }
 
     modifier IsLotteryClose {
-        require(state == LotteryState.opened);
+        require(state == LotteryState.opened, "Lottery is closed now");
         _;
     }
 
     struct BettorInfo {
         address payable bettor_address;
-
-        // what to submit?
-        
+        uint amount;
+        uint[5] numbers;
     }
 
 
     // Start the lottery
-    function openLottery() IsLotteryClose onlyOwner public returns (bool) {
+    function OpenLottery() IsLotteryClose onlyOwner public returns (bool) {
         state = LotteryState.opened;
         return true;
     }
 
     // End the lottery
-    function closeLottery() IsLotteryOpen onlyOwner public returns (bool) {
+    function CloseLottery() IsLotteryOpen onlyOwner public returns (bool) {
         state = LotteryState.closed;
         return true;
     }
 
     // Return current reward
-    function getReward() public returns (uint) {
+    function GetReward() public view returns (uint) {
         return reward;
     }
 
     // function for betting
     // 무엇으로 배팅을 할건지를 바탕으로 param이 정해져야함
-    function betting() public returns (bool) {
+    function Bet(uint[5] memory betting_numbers) public payable returns (bool) {
         // check correct bet amount
         require(msg.value == BET_AMOUNT, "Not Enough ETH");
         
         // push the bet to the queue
-
+        bets[_tail].bettor_address = msg.sender;
+        bets[_tail].amount = msg.value;
+        for(uint i=0; i < 5; i++) {
+            bets[_tail].numbers[i] = betting_numbers[i];
+        }
+        _tail++;
+        
         // event log
-
+        emit BET(_tail - 1, bets[_tail-1].bettor_address, bets[_tail-1].amount, bets[_tail].numbers);
+        return true;
     }
 
     // function for distributing the reward
     // 베팅의 결과를 확인하는 function
     // 한 사람이 여러 값을 배팅했다면 한번에 확인할 수 있도록 이벤트를 찍어주도록 할 것
-    function distribute() public {
+    function Distribute() public {
         // win
 
         // lose
@@ -85,22 +96,27 @@ contract Lottery {
     }
 
     // address, betting information, timestamp?
-    function get_my_betinfo() public returns () {
-
+    function GetMyBetinfo() public returns (bool) {
+        for(uint i=_head; i<_tail; i++) {
+            if(bets[i].bettor_address == msg.sender) {
+                emit CHECKBET(i, bets[i].bettor_address, bets[i].amount, bets[i].numbers);
+                return true;
+            }
+        }
+        return false;
     }
 
 
-    function push_bet() internal returns (bool) {
-
-    }
-
-    function pop_bet() internal returns (bool) {
-
-    }
 
     // event log를 통해 현재 배팅한 사람들의 배팅정보를 볼 수 있는 함수
-    function show_all() public returns () onlyOnwer{
+    function ShowAll() onlyOwner public returns (bool) {
 
     }
-
+    
+    function random() private view returns (uint8) {
+        //return uint8(uint256(keccak256(block.timestamp)) % 50);
+    }
+    
+    function () external payable { }
+    
 }
