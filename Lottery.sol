@@ -1,23 +1,29 @@
 pragma solidity >=0.4.21 <0.6.0;
 
 interface ERC20 {
-	function totalSupply() external view returns (uint256);
-	function balanceOf(address who) external view returns (uint256);
-	function allowance(address owner, address spender) external view returns (uint256);
-	function transfer(address to, uint256 value) external returns (bool);
-	function approve(address spender, uint256 value) external returns (bool);
-	function transferFrom(address from, address to, uint256 value) external returns (bool);
-	event Transfer(address indexed from, address indexed to, uint256 value);
-	event Approval(address indexed owner, address indexed spender, uint256 value); 
+   function totalSupply() external view returns (uint256);
+   function balanceOf(address who) external view returns (uint256);
+   function allowance(address owner, address spender) external view returns (uint256);
+   function transfer(address to, uint256 value) external returns (bool);
+   function approve(address spender, uint256 value) external returns (bool);
+   function transferFrom(address _from, address to, uint256 value, address buyer) external returns (bool);
+   event Transfer(address indexed _from, address indexed to, uint256 value);
+   event Approval(address indexed owner, address indexed spender, uint256 value); 
 }
 
 contract LotteryToken is ERC20 {
-	string public name = "Lottery Token";
-	string public symbol = "LTK";
-	uint8 public decimals = 0;
-    address public Owner;
-	uint256 totalToken;
+   string public name = "Lottery Token";
+   string public symbol = "LTK";
+   uint8 public decimals = 0;
+   address payable public Owner;
+   uint256 totalToken;
+   uint256 public Test;
 
+    address public Tested2_to;
+    address public Tested2_from;
+    uint256 public Tested2;
+    address public Test_to;
+    address public Test_from;
     mapping(address => uint256) balances;
     mapping(address => mapping(address => uint256)) shared;
 
@@ -28,6 +34,10 @@ contract LotteryToken is ERC20 {
         decimals = 0;
         totalToken = 100000;
         balances[Owner] = totalToken;
+    }
+    
+    function getOwner() view public returns (address payable) {
+        return Owner;
     }
 
     function totalSupply() external view returns (uint256){
@@ -53,27 +63,33 @@ contract LotteryToken is ERC20 {
         return true;
     }
 
-    function approve(address spender, uint256 value) external returns (bool){
+    function approve(address spender, uint256 value) external returns (bool) {
         require(spender != address(0));
         shared[msg.sender][spender] = value;
+        Tested2_from=msg.sender;
+        Tested2_to=spender;
+        Tested2=shared[msg.sender][spender];
 
         emit Approval(msg.sender, spender, value);
         return true;
     }
 
-    function transferFrom(address from, address to, uint256 value) external returns (bool){
+    function transferFrom(address _from, address to, uint256 value, address buyer) external returns (bool){
         require(to != address(0));
-        require(value >= 0 && value <= 2^256-1 && value <= balances[from]);
-        require(value <= shared[from][msg.sender]);
-        balances[from] -= value;
-        shared[from][msg.sender] -= value;
+        require(value >= 0 && value <= 2^256-1 && value <= balances[_from]);
+        Test_from=_from;
+        Test_to=buyer;
+        Test=shared[_from][buyer];
+        require(value <= shared[_from][buyer]);
+        balances[_from] -= value;
+        shared[_from][buyer] -= value;
         balances[to] += value;
 
-        emit Transfer(from, to, value);
+        emit Transfer(_from, to, value);
         return true;
     }
 
-    event Transfer(address indexed from, address indexed to, uint256 value);
+    event Transfer(address indexed _from, address indexed to, uint256 value);
     event Approval(address indexed owner, address indexed spender, uint256 value);
 
 }
@@ -90,21 +106,21 @@ contract Lottery {
     enum LotteryState {opened, closed}
     LotteryState state;
 
-	LotteryToken token;
-	uint256 rate;
+   LotteryToken token;
+   uint256 public rate;
     
-	event BET(uint index, address payable bettor_address, uint amount, uint[6] numbers);
+   event BET(uint index, address payable bettor_address, uint amount, uint[6] numbers);
     event CHECKBET(uint index, address payable bettor_address, uint amount, uint[6] numbers);
 
-	
-    constructor(address _LotteryToken, uint256 _rate) public {
-        owner = msg.sender;
+   
+    constructor(LotteryToken _LotteryToken, uint256 _rate) public {
+        owner = _LotteryToken.getOwner();
         state = LotteryState.closed;
-		token = LotteryToken(_LotteryToken);
-		rate = _rate;
-		_head = 0;
-		_tail = 0;
-	    token.approve(owner, 100000);
+      token = LotteryToken(_LotteryToken);
+      rate = _rate;
+      _head = 0;
+      _tail = 0;
+       token.approve(owner, 100000);
     }
 
     modifier onlyOwner {
@@ -128,11 +144,11 @@ contract Lottery {
         uint[6] numbers;
     }
 
-	// Token
-	function BuyToken() public payable {
+   // Token
+   function BuyToken(address buyer) public payable {
         require(msg.value > 0 ether);
         // owner.transfer(msg.value);
-        token.transferFrom(owner, msg.sender, msg.value * rate);
+        token.transferFrom(owner, msg.sender, msg.value * rate / 1 ether, buyer);
     }
 
     function withdraw(uint256 value) public payable onlyOwner {
@@ -157,6 +173,8 @@ contract Lottery {
         return reward;
     }
 
+
+/*
     function Bet(uint[6] memory betting_numbers) public payable returns (bool) {
         // check correct bet amount
         // require(msg.value == BET_AMOUNT);
@@ -214,7 +232,7 @@ contract Lottery {
         _tail = 0;
         return retval;
     }
-
+*/
     // address, betting information, timestamp?
     function GetMyBetinfo() public returns (bool) {
         for(uint i=_head; i<_tail; i++) {
@@ -234,13 +252,20 @@ contract Lottery {
     }
     
     // **********************TODO***********************
-    function random() private view returns (uint[6] memory) {
+    function random() public view returns (uint256[6] memory) {
         //return uint8(uint256(keccak256(block.timestamp)) % 50);
+        bytes32 currentBlockNum = blockhash(block.number-1);
+        
+		uint256[6] memory answer;
+		uint256 tmp = uint256(currentBlockNum);
+		for(uint i = 0; i<6; i++){
+		    answer[i] = tmp % 50;
+			tmp = tmp / 50;
+		}
+
+		return answer;
     }
     
     function () external payable { }
     
 }
-
-
-
