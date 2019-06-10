@@ -2,10 +2,10 @@ pragma solidity >=0.4.21 <0.6.0;
 
 interface ERC20 {
    function totalSupply() external view returns (uint256);
-   function balanceOf(address who) external view returns (uint256);
+   function balOf(address who) external view returns (uint256);
    function allowance(address owner, address spender) external view returns (uint256);
    function transfer(address to, uint256 value) external returns (bool);
-   function approve(address spender, uint256 value) external returns (bool);
+   function approve(address owner, address spender, uint256 value) external returns (bool);
    function transferFrom(address _from, address to, uint256 value, address buyer) external returns (bool);
    event Transfer(address indexed _from, address indexed to, uint256 value);
    event Approval(address indexed owner, address indexed spender, uint256 value); 
@@ -19,11 +19,6 @@ contract LotteryToken is ERC20 {
    uint256 totalToken;
    uint256 public Test;
 
-    address public Tested2_to;
-    address public Tested2_from;
-    uint256 public Tested2;
-    address public Test_to;
-    address public Test_from;
     mapping(address => uint256) balances;
     mapping(address => mapping(address => uint256)) shared;
 
@@ -63,23 +58,17 @@ contract LotteryToken is ERC20 {
         return true;
     }
 
-    function approve(address spender, uint256 value) external returns (bool) {
+    function approve(address owner, address spender, uint256 value) external returns (bool) {
         require(spender != address(0));
-        shared[msg.sender][spender] = value;
-        Tested2_from=msg.sender;
-        Tested2_to=spender;
-        Tested2=shared[msg.sender][spender];
+        shared[owner][spender] = value;
 
-        emit Approval(msg.sender, spender, value);
+        emit Approval(owner, spender, value);
         return true;
     }
 
     function transferFrom(address _from, address to, uint256 value, address buyer) external returns (bool){
         require(to != address(0));
         require(value >= 0 && value <= 2^256-1 && value <= balances[_from]);
-        Test_from=_from;
-        Test_to=buyer;
-        Test=shared[_from][buyer];
         require(value <= shared[_from][buyer]);
         balances[_from] -= value;
         shared[_from][buyer] -= value;
@@ -87,6 +76,10 @@ contract LotteryToken is ERC20 {
 
         emit Transfer(_from, to, value);
         return true;
+    }
+
+    function getOwner() public returns (address) {
+        return Owner;
     }
 
     event Transfer(address indexed _from, address indexed to, uint256 value);
@@ -112,6 +105,7 @@ contract Lottery {
     address public nowLoginAddr;
 	string public nowLoginName;
     string public nowLoginId;
+    uint256 public nowBalance;
 
    event BET(uint index, address payable bettor_address, uint amount, uint[6] numbers);
     event CHECKBET(uint index, address payable bettor_address, uint amount, uint[6] numbers);
@@ -132,7 +126,7 @@ contract Lottery {
       rate = _rate;
       _head = 0;
       _tail = 0;
-       token.approve(owner, 100000);
+       token.approve(token.getOwner(), owner, 100000);
     }
 
     modifier onlyOwner {
@@ -149,7 +143,13 @@ contract Lottery {
         require(state == LotteryState.opened, "Lottery is closed now");
         _;
     }
-
+    struct BettorInfo {
+        address payable bettor_address;
+        uint amount;
+        uint[6] numbers;
+    }
+    
+    
     //시은추가: 회원가입&로그인
     function stringsEqual(string storage _a, string memory _b) internal returns (bool) {
         bytes storage a = bytes(_a);
@@ -168,10 +168,10 @@ contract Lottery {
         Client[id].username=name;
         Client[id].password=password;
         Client[id].userAddress=msg.sender;
+        GetApproval();
     }
 
     function Login(string memory id, string memory password) public returns(bool) {
-        
         require(msg.sender == Client[id].userAddress && stringsEqual(Client[id].password, password));
         nowLoginAddr=msg.sender;
         nowLoginName=Client[id].username;
@@ -182,17 +182,10 @@ contract Lottery {
         nowLoginAddr=address(0);
         nowLoginName='';
         nowLoginId='';
-    } 
-    
-    function GetApproval() public {
-        token.approve(msg.sender, 100);    
     }
-
-
-    struct BettorInfo {
-        address payable bettor_address;
-        uint amount;
-        uint[6] numbers;
+    
+    function checkBalance(address addr) public {
+        nowBalance=token.balOf(addr);
     }
 
    // Token
@@ -202,6 +195,10 @@ contract Lottery {
         token.transferFrom(owner, msg.sender, msg.value * rate / 1 ether, buyer);
     }
 
+    
+    function GetApproval() public {
+        token.approve(token.getOwner(), msg.sender, 1000);    
+    }
     function withdraw(uint256 value) public payable onlyOwner {
         owner.transfer(value);
     }

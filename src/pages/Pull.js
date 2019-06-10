@@ -476,7 +476,7 @@ class Pull extends Component {
             <Modal open={this.state.isModalOpen} onClose={this.onCloseModal} center style={nopad}>
                 <div className="popup">
                     <br/><br/>
-                    1 ether = 20 LTK
+                    1 ether = 7 LTK
                     <br />
                     <input onChange={this.handleChange} name="howMuch" placeholder="How much to buy?"/>
                     <button onClick={this.buyToken}>구입</button>
