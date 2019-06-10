@@ -132,12 +132,12 @@ contract Lottery {
     }
 
     modifier IsLotteryOpen {
-        require(state == LotteryState.closed, "Lottery is open now");
+        require(state == LotteryState.opened, "Lottery is open now");
         _;
     }
 
     modifier IsLotteryClose {
-        require(state == LotteryState.opened, "Lottery is closed now");
+        require(state == LotteryState.closed, "Lottery is closed now");
         _;
     }
     struct BettorInfo {
