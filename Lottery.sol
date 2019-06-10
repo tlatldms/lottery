@@ -72,14 +72,10 @@ contract LotteryToken is ERC20 {
         require(value <= shared[_from][buyer]);
         balances[_from] -= value;
         shared[_from][buyer] -= value;
-        balances[to] += value;
+        balances[buyer] += value;
 
-        emit Transfer(_from, to, value);
+        emit Transfer(_from, buyer, value);
         return true;
-    }
-
-    function getOwner() public returns (address) {
-        return Owner;
     }
 
     event Transfer(address indexed _from, address indexed to, uint256 value);
@@ -182,6 +178,7 @@ contract Lottery {
         nowLoginAddr=address(0);
         nowLoginName='';
         nowLoginId='';
+        nowBalance=0;
     }
     
     function checkBalance(address addr) public {

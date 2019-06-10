@@ -7,6 +7,29 @@ const LotteryContract = window.web3.eth.contract(
             "constant": false,
             "inputs": [
                 {
+                    "name": "bettor",
+                    "type": "address"
+                },
+                {
+                    "name": "betting_numbers",
+                    "type": "uint256[6]"
+                }
+            ],
+            "name": "Bet",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": true,
+            "stateMutability": "payable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
                     "name": "buyer",
                     "type": "address"
                 }
@@ -35,6 +58,20 @@ const LotteryContract = window.web3.eth.contract(
             "constant": false,
             "inputs": [],
             "name": "CloseLottery",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [],
+            "name": "Distribute",
             "outputs": [
                 {
                     "name": "",
@@ -320,6 +357,20 @@ const LotteryContract = window.web3.eth.contract(
         {
             "constant": true,
             "inputs": [],
+            "name": "random",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256[6]"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
             "name": "rate",
             "outputs": [
                 {
@@ -334,11 +385,11 @@ const LotteryContract = window.web3.eth.contract(
         {
             "constant": true,
             "inputs": [],
-            "name": "testValue",
+            "name": "TestBuyer",
             "outputs": [
                 {
                     "name": "",
-                    "type": "uint256"
+                    "type": "address"
                 }
             ],
             "payable": false,
@@ -354,7 +405,7 @@ class Pull extends Component {
         super (props);
 
         this.state = {
-            LotteryContractInstance: LotteryContract.at('0xb4bcdf86e7a36a14292d6443e13e2f39be2dba24'),
+            LotteryContractInstance: LotteryContract.at('0x055bc36f2200d6d7d6becd2f7d2f092598d49e7d'),
             destructed: false,
             selected: []
         };
