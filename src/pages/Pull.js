@@ -318,6 +318,7 @@ const LotteryContract = window.web3.eth.contract(
         }
     ]
 );
+
 class Pull extends Component {
 
     constructor (props) {
@@ -325,8 +326,10 @@ class Pull extends Component {
 
         this.state = {
             LotteryContractInstance: LotteryContract.at('0x92f76c4dbe0bd7f85be54b1a14be0637b86a5b45'),
-            destructed: false
+            destructed: false,
+            selected: []
         };
+        
     } 
 
     componentDidMount() {
@@ -336,6 +339,31 @@ class Pull extends Component {
         }, 1000);
     }
 
+    selectNumber=(e)=>{
+        const newArr=[];
+        const selected = this.state.selected;
+        if (selected.indexOf(e.target.value) != -1 ) {
+            const deleted=selected.filter(x=> x != e.target.value)
+            this.setState({
+                selected: deleted
+            })
+        }
+        else if (selected.length >= 6 ) {
+            /* for (let i=0; i<5; i++) {
+                newArr[i]=selected[i+1];
+            }
+            newArr[5]=e.target.value;
+            this.setState({
+                selected: newArr
+            });
+            */
+           alert("6개까지만 선택하실 수 있습니다");
+        } else {
+            this.setState({
+                selected: selected.concat(e.target.value)
+            })
+        }
+    }
     getLoginName=() => {
         const { nowLoginName } = this.state.LotteryContractInstance;
         nowLoginName((err,name) => {
@@ -352,85 +380,59 @@ class Pull extends Component {
     render() {
         return(
             <div>
-                안녕하세요, {this.state.nowLoginName} 님.
-            <br/><br/><br/>
+                안녕하세요, {this.state.nowLoginName} 님. 남은 토큰:
+            <br/>
+            선택한 숫자: {this.state.selected.map(x=> {return <span>{x} </span>  })}<br/><br/>
             <center>
                 <table id="ball_table">
                     <tr>
                         <td>
-                            <button type="button" class="first_line"> 1 </button>
-                            <button type="button" class="first_line"> 2 </button>
-                            <button type="button" class="first_line"> 3 </button>
-                            <button type="button" class="first_line"> 4 </button>
-                            <button type="button" class="first_line"> 5 </button>
-                            <button type="button" class="first_line"> 6 </button>
-                            <button type="button" class="first_line"> 7 </button>
+                            {[1,2,3,4,5,6,7].map(
+                                x=> {return <button onClick={this.selectNumber} type="button" value={x} class="first_line"> {x} </button>}
+                            )}
+                        
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <button type="button" class="second_line">8</button>
-                            <button type="button" class="second_line">9</button>
-                            <button type="button" class="second_line">10</button>
-                            <button type="button" class="second_line">11</button>
-                            <button type="button" class="second_line">12</button>
-                            <button type="button" class="second_line">13</button>
-                            <button type="button" class="second_line">14</button>
+                        {[8,9,10,11,12,13,14].map(
+                                x=> {return <button onClick={this.selectNumber} type="button" value={x} class="second_line"> {x} </button>}
+                            )}
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <button type="button" class="third_line">15</button>
-                            <button type="button" class="third_line">16</button>
-                            <button type="button" class="third_line">17</button>
-                            <button type="button" class="third_line">18</button>
-                            <button type="button" class="third_line">19</button>
-                            <button type="button" class="third_line">20</button>
-                            <button type="button" class="third_line">21</button>
+                        {[15,16,17,18,19,20,21].map(
+                                x=> {return <button onClick={this.selectNumber} type="button" value={x} class="third_line"> {x} </button>}
+                            )}
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <button type="button" class="forth_line">22</button>
-                            <button type="button" class="forth_line">23</button>
-                            <button type="button" class="forth_line">24</button>
-                            <button type="button" class="forth_line">25</button>
-                            <button type="button" class="forth_line">26</button>
-                            <button type="button" class="forth_line">27</button>
-                            <button type="button" class="forth_line">28</button>
+                        {[22,23,24,25,26,27,28].map(
+                                x=> {return <button onClick={this.selectNumber} type="button" value={x} class="forth_line"> {x} </button>}
+                            )}
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <button type="button" class="fifth_line">29</button>
-                            <button type="button" class="fifth_line">30</button>
-                            <button type="button" class="fifth_line">31</button>
-                            <button type="button" class="fifth_line">32</button>
-                            <button type="button" class="fifth_line">33</button>
-                            <button type="button" class="fifth_line">34</button>
-                            <button type="button" class="fifth_line">35</button>
+                        {[29,30,31,32,33,34,35].map(
+                                x=> {return <button onClick={this.selectNumber} type="button" value={x} class="fifth_line"> {x} </button>}
+                            )}
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <button type="button" class="sixth_line">36</button>
-                            <button type="button" class="sixth_line">37</button>
-                            <button type="button" class="sixth_line">38</button>
-                            <button type="button" class="sixth_line">39</button>
-                            <button type="button" class="sixth_line">40</button>
-                            <button type="button" class="sixth_line">41</button>
-                            <button type="button" class="sixth_line">42</button>
+                        {[36,37,38,39,40,41,42].map(
+                                x=> {return <button onClick={this.selectNumber} type="button" value={x} class="sixth_line"> {x} </button>}
+                            )}
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <button type="button" class="last_line">43</button>
-                            <button type="button" class="last_line">44</button>
-                            <button type="button" class="last_line">45</button>
-                            <button type="button" class="last_line">46</button>
-                            <button type="button" class="last_line">47</button>
-                            <button type="button" class="last_line">48</button>
-                            <button type="button" class="last_line">49</button>
+                        {[43,44,45,46,47,48,49].map(
+                                x=> {return <button onClick={this.selectNumber} type="button" value={x} class="last_line"> {x} </button>}
+                            )}
                         </td>
                     </tr>
                 </table>

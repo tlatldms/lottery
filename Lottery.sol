@@ -111,6 +111,7 @@ contract Lottery {
 
     address public nowLoginAddr;
 	string public nowLoginName;
+    string public nowLoginId;
 
    event BET(uint index, address payable bettor_address, uint amount, uint[6] numbers);
     event CHECKBET(uint index, address payable bettor_address, uint amount, uint[6] numbers);
@@ -174,14 +175,14 @@ contract Lottery {
         require(msg.sender == Client[id].userAddress && stringsEqual(Client[id].password, password));
         nowLoginAddr=msg.sender;
         nowLoginName=Client[id].username;
+        nowLoginId=id;
     }    
-	// Token
-	function BuyToken(address buyer) public payable {
-        require(msg.value > 0 ether);
-        // owner.transfer(msg.value);
-        testValue=msg.value * rate / 1 ether;
-        token.transferFrom(owner, msg.sender, msg.value * rate / 1 ether, buyer);
-    }
+    
+    function Logout() public {
+        nowLoginAddr=address(0);
+        nowLoginName='';
+        nowLoginId='';
+    } 
     
     function GetApproval() public {
         token.approve(msg.sender, 100);    

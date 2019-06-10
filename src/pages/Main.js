@@ -450,6 +450,8 @@ class Main extends Component {
             로터리의 주인은? 
             <button onClick={this.getContractOwner}>클릭</button>
             {this.state.contractOwner}
+            <br/>
+            현재 {this.state.nowLoginId}님의 토큰: <button>토큰 사기</button>
             <center>
             	<table>
 	            	<tr>
