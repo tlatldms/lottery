@@ -405,7 +405,7 @@ class Main extends Component {
         super (props);
 
         this.state = {
-            LotteryContractInstance: LotteryContract.at('0x055bc36f2200d6d7d6becd2f7d2f092598d49e7d'),
+            LotteryContractInstance: LotteryContract.at('0x772cddaca860a2b9cf7d8ecf02a9f84a8f5e1c5d'),
             destructed: false
         };
     } 

@@ -405,7 +405,7 @@ class Pull extends Component {
         super (props);
 
         this.state = {
-            LotteryContractInstance: LotteryContract.at('0x055bc36f2200d6d7d6becd2f7d2f092598d49e7d'),
+            LotteryContractInstance: LotteryContract.at('0x772cddaca860a2b9cf7d8ecf02a9f84a8f5e1c5d'),
             destructed: false,
             selected: []
         };
@@ -413,11 +413,12 @@ class Pull extends Component {
     } 
 
     componentDidMount() {
-        
+        this.getContractOwner();
+        this.getLoginAddr();
+        this.getLoginName();
+        //this.getLotteryState();
         this.interval = setInterval(() => {
-            this.getLoginName();
             this.nowBalance();
-            this.getLoginAddr();
         }, 1000);
     }
 
@@ -446,6 +447,45 @@ class Pull extends Component {
             })
         }
     }
+    getContractOwner = () => {
+        const { owner } = this.state.LotteryContractInstance;
+        owner((err,addr) => {
+            this.setState({
+                contractOwner: addr,
+            })
+            if (addr == "0x") {
+                console.log("addr 없음");
+            }
+        })
+    }
+    Betting=()=>{
+        if (this.state.selected.length != 6) {
+            alert("숫자 6개를 선택해 주십시오.");
+        } else {
+        const { Bet } = this.state.LotteryContractInstance;
+        Bet(
+            this.state.nowLoginAddr,
+            this.state.selected,
+            {
+                gas: 300000,
+                from: window.web3.eth.accounts[0],
+                value: window.web3.toWei(0,'ether')
+            },(err, result) => {
+                console.log(err, result);
+        });
+
+        }
+    }
+
+    getLotteryState=() => {
+        const { state } = this.state.LotteryContractInstance;
+        state((err,ret) => {
+            this.setState({
+                isLotteryOpened: ret,
+            })
+        })
+    }
+
     getLoginName=() => {
         const { nowLoginName } = this.state.LotteryContractInstance;
         nowLoginName((err,name) => {
@@ -467,6 +507,29 @@ class Pull extends Component {
         })
     }
 
+    openLottery=()=>{
+        const {  OpenLottery } = this.state.LotteryContractInstance;
+        OpenLottery(
+            {
+                gas: 300000,
+                from: window.web3.eth.accounts[0],
+                value: window.web3.toWei(0,'ether')
+            },(err, result) => {
+                console.log(err, result);
+        });
+    }
+
+    closeLottery=()=>{
+        const {  CloseLottery } = this.state.LotteryContractInstance;
+        CloseLottery(
+            {
+                gas: 300000,
+                from: window.web3.eth.accounts[0],
+                value: window.web3.toWei(0,'ether')
+            },(err, result) => {
+                console.log(err, result);
+        });
+    }
 
     buyToken= () => {
         const { BuyToken } = this.state.LotteryContractInstance;
@@ -484,8 +547,7 @@ class Pull extends Component {
         })
     }
 
-    checkBalance= () => {
-        
+    checkBalance= () => {      
         const { checkBalance } = this.state.LotteryContractInstance;
         checkBalance(
             this.state.nowLoginAddr,
@@ -520,6 +582,13 @@ class Pull extends Component {
     render() {
         return(
             <div>
+                {this.state.contractOwner == this.state.nowLoginAddr ?
+                    <div>
+                        <button onClick={this.openLottery}>Open Lottery</button>
+                        <button onClick={this.closeLottery}>Close Lottery</button>
+                    </div>
+                    : "평민"}
+            <br />
             <Modal open={this.state.isModalOpen} onClose={this.onCloseModal} center style={nopad}>
                 <div className="popup">
                     <br/><br/>
@@ -531,8 +600,11 @@ class Pull extends Component {
             </Modal>
                 
                 안녕하세요, {this.state.nowLoginName} 님. 남은 토큰:{this.state.nowBal} <button onClick={this.checkBalance}>잔액 새로고침</button> <button onClick={()=>this.setState({isModalOpen:true})}>토큰 사기</button>
+            <br />
+            <button onClick={this.Betting}>베팅하기</button>
             <br/>
             선택한 숫자: {this.state.selected.map(x=> {return <span>{x} </span>  })}<br/><br/>
+            <br />
             <center>
                 <table id="ball_table">
                     <tr>
