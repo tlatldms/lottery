@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import Modal from 'react-responsive-modal';
+import win_img from '../asset/win.png';
+import lose_img from '../asset/lose.png';
 
 const LotteryContract = window.web3.eth.contract(
     [
@@ -588,6 +590,11 @@ class Pull extends Component {
     onCloseModal = () => {
         this.setState({ isModalOpen: false });
     };
+
+    onCloseModal2 = () =>{
+        this.setState({ isModalOpen2: false});
+    };
+
     handleChange = (e) => {
         this.setState({
             [e.target.name] : e.target.value,
@@ -605,6 +612,18 @@ class Pull extends Component {
                     <br />
                     <input onChange={this.handleChange} name="howMuch" placeholder="How much to buy?"/>
                     <button onClick={this.buyToken}>구입</button>
+                </div>
+            </Modal>
+            <Modal open={this.state.isModalOpen2} onClose={this.onCloseModal2} center style={nopad}>
+                <div class="result">
+                    <center><img id="input" src={win_img} alt=""/></center>
+                    
+                    <br/>
+                    <h1> You win the lottery !!!!!!!!!</h1>
+                    <br/>
+                    <center><img id="input2" src={lose_img} alt=""/></center>
+                    <br/>
+                    <h1> You lose the lottery ........ OTL</h1>
                 </div>
             </Modal>
             <center>
@@ -635,8 +654,11 @@ class Pull extends Component {
                                         <td><center><button onClick={this.closeLottery} class="btn btn-info" >Close Lottery</button></center></td>
                                         <td>　　　</td>
                                         <td><center><button onClick={this.closeLottery} class="btn btn-info" >Distribute</button></center></td>
-                                    </tr> 
+                                    </tr>
+                                    
                             </table>
+                            <br/>
+                            <center><button onClick={()=>this.setState({isModalOpen2:true})} class="btn btn-warning btn-lg">Result</button></center>
                         </center>
                     </td>
                     <td>　　　　　　　</td>
