@@ -541,6 +541,7 @@ class Main extends Component {
             <button onClick={this.handleLogout}>로그아웃</button>
             {this.state.nowLoginName ? <Link to="/pull">뽑기페이지로</Link> : "로그인이 필요합니다"}
             <br />
+           {this.state.contractOwner}
             <br/>
             
             <center>
