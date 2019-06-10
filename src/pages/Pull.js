@@ -1,7 +1,36 @@
 import React, { Component } from 'react';
+import Modal from 'react-responsive-modal';
 
 const LotteryContract = window.web3.eth.contract(
     [
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "buyer",
+                    "type": "address"
+                }
+            ],
+            "name": "BuyToken",
+            "outputs": [],
+            "payable": true,
+            "stateMutability": "payable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "addr",
+                    "type": "address"
+                }
+            ],
+            "name": "checkBalance",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
         {
             "constant": false,
             "inputs": [],
@@ -17,144 +46,10 @@ const LotteryContract = window.web3.eth.contract(
             "type": "function"
         },
         {
-            "constant": true,
-            "inputs": [],
-            "name": "rate",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": false,
-            "inputs": [
-                {
-                    "name": "value",
-                    "type": "uint256"
-                }
-            ],
-            "name": "withdraw",
-            "outputs": [],
-            "payable": true,
-            "stateMutability": "payable",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "GetReward",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "nowLoginName",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "string"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
             "constant": false,
             "inputs": [],
             "name": "GetApproval",
             "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "nowLoginId",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "string"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "testValue",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "owner",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": false,
-            "inputs": [
-                {
-                    "name": "name",
-                    "type": "string"
-                },
-                {
-                    "name": "id",
-                    "type": "string"
-                },
-                {
-                    "name": "password",
-                    "type": "string"
-                }
-            ],
-            "name": "Register",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "constant": false,
-            "inputs": [],
-            "name": "OpenLottery",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "bool"
-                }
-            ],
             "payable": false,
             "stateMutability": "nonpayable",
             "type": "function"
@@ -206,17 +101,39 @@ const LotteryContract = window.web3.eth.contract(
             "type": "function"
         },
         {
-            "constant": true,
+            "constant": false,
             "inputs": [],
-            "name": "nowLoginAddr",
+            "name": "OpenLottery",
             "outputs": [
                 {
                     "name": "",
-                    "type": "address"
+                    "type": "bool"
                 }
             ],
             "payable": false,
-            "stateMutability": "view",
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "name",
+                    "type": "string"
+                },
+                {
+                    "name": "id",
+                    "type": "string"
+                },
+                {
+                    "name": "password",
+                    "type": "string"
+                }
+            ],
+            "name": "Register",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
             "type": "function"
         },
         {
@@ -232,11 +149,11 @@ const LotteryContract = window.web3.eth.contract(
             "constant": false,
             "inputs": [
                 {
-                    "name": "buyer",
-                    "type": "address"
+                    "name": "value",
+                    "type": "uint256"
                 }
             ],
-            "name": "BuyToken",
+            "name": "withdraw",
             "outputs": [],
             "payable": true,
             "stateMutability": "payable",
@@ -315,6 +232,118 @@ const LotteryContract = window.web3.eth.contract(
             ],
             "name": "CHECKBET",
             "type": "event"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "GetReward",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "nowBalance",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "nowLoginAddr",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "nowLoginId",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "nowLoginName",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "string"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "owner",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "rate",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "testValue",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
         }
     ]
 );
@@ -325,7 +354,7 @@ class Pull extends Component {
         super (props);
 
         this.state = {
-            LotteryContractInstance: LotteryContract.at('0x92f76c4dbe0bd7f85be54b1a14be0637b86a5b45'),
+            LotteryContractInstance: LotteryContract.at('0xc99a2337d45c57e01f544c1a55428bcb9cbbb610'),
             destructed: false,
             selected: []
         };
@@ -336,6 +365,8 @@ class Pull extends Component {
         
         this.interval = setInterval(() => {
             this.getLoginName();
+            this.nowBalance();
+            this.getLoginAddr();
         }, 1000);
     }
 
@@ -370,17 +401,89 @@ class Pull extends Component {
             this.setState({
                 nowLoginName: name,
             })
+
             if (name === "") {
                 console.log("name 없음");
             }
         })
     }
+    getLoginAddr=() => {
+        const { nowLoginAddr } = this.state.LotteryContractInstance;
+        nowLoginAddr((err,addr) => {
+            this.setState({
+                nowLoginAddr: addr,
+            })
+            console.log(addr);
+            if (addr === "0x") {
+                console.log("addr없음");
+            }
+        })
+    }
 
 
+    buyToken= () => {
+        const { BuyToken } = this.state.LotteryContractInstance;
+        BuyToken(
+            this.state.nowLoginAddr,
+            {
+                gas: 300000,
+                from: window.web3.eth.accounts[0],
+                value: window.web3.toWei(this.state.howMuch,'ether')
+            },(err, result) => {
+                console.log(err, result);
+        });
+        this.setState({
+            isModalOpen:false
+        })
+    }
+
+    checkBalance= () => {
+        
+        const { checkBalance } = this.state.LotteryContractInstance;
+        checkBalance(
+            this.state.nowLoginAddr,
+            {
+                gas: 300000,
+                from: window.web3.eth.accounts[0],
+                value: window.web3.toWei(0,'ether')
+            },(err, result) => {
+                console.log(err, result);
+        });
+    }
+
+    nowBalance= () =>{
+        const { nowBalance } = this.state.LotteryContractInstance;
+        nowBalance((err,bal) => {
+
+            this.setState({
+                nowBal: bal.c[0]
+            })
+           
+        })
+    }
+
+    onCloseModal = () => {
+        this.setState({ isModalOpen: false });
+    };
+    handleChange = (e) => {
+        this.setState({
+            [e.target.name] : e.target.value,
+        })
+    }
     render() {
         return(
             <div>
-                안녕하세요, {this.state.nowLoginName} 님. 남은 토큰:
+            <Modal open={this.state.isModalOpen} onClose={this.onCloseModal} center style={nopad}>
+                <div className="popup">
+                    <br/><br/>
+                    1 ether = 20 LTK
+                    <br />
+                    <input onChange={this.handleChange} name="howMuch" placeholder="How much to buy?"/>
+                    <button onClick={this.buyToken}>구입</button>
+                </div>
+            </Modal>
+                
+                안녕하세요, {this.state.nowLoginName} 님. 남은 토큰:{this.state.nowBal} <button onClick={this.checkBalance}>잔액 새로고침</button> <button onClick={()=>this.setState({isModalOpen:true})}>토큰 사기</button>
             <br/>
             선택한 숫자: {this.state.selected.map(x=> {return <span>{x} </span>  })}<br/><br/>
             <center>
@@ -443,3 +546,6 @@ class Pull extends Component {
 }
 
 export default Pull;
+const nopad = {
+    padding: '0px',
+}
