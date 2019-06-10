@@ -204,7 +204,7 @@ contract Lottery {
 		return true;
 	}
 
-	function Register(string memory name, string memory id,string memory password) notOwner public {
+	function Register(string memory name, string memory id,string memory password) public {
 		require(Client[id].userAddress == address(0) );
 		Client[id].username=name;
 		Client[id].password=password;
