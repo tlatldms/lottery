@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/lottery/static/css/main.4cfee7b2.chunk.css",
-    "main.js": "/lottery/static/js/main.4cb6ddff.chunk.js",
-    "main.js.map": "/lottery/static/js/main.4cb6ddff.chunk.js.map",
+    "main.js": "/lottery/static/js/main.472f3a28.chunk.js",
+    "main.js.map": "/lottery/static/js/main.472f3a28.chunk.js.map",
     "runtime~main.js": "/lottery/static/js/runtime~main.50ff0365.js",
     "runtime~main.js.map": "/lottery/static/js/runtime~main.50ff0365.js.map",
     "static/js/2.e15ff42a.chunk.js": "/lottery/static/js/2.e15ff42a.chunk.js",
     "static/js/2.e15ff42a.chunk.js.map": "/lottery/static/js/2.e15ff42a.chunk.js.map",
     "index.html": "/lottery/index.html",
-    "precache-manifest.0648f047dc4281fd9cf79f2c44e038fe.js": "/lottery/precache-manifest.0648f047dc4281fd9cf79f2c44e038fe.js",
+    "precache-manifest.41474c957fb9025d0069bcf8a3a625aa.js": "/lottery/precache-manifest.41474c957fb9025d0069bcf8a3a625aa.js",
     "service-worker.js": "/lottery/service-worker.js",
     "static/css/main.4cfee7b2.chunk.css.map": "/lottery/static/css/main.4cfee7b2.chunk.css.map",
     "static/media/1.png": "/lottery/static/media/1.450820bc.png"
