@@ -418,13 +418,16 @@ class Pull extends Component {
 
     constructor (props) {
         super (props);
-
         this.state = {
             LotteryContractInstance: LotteryContract.at('0x1c3c6de3548491741ea091b06efefd721bc4997f'),
             destructed: false,
             selected: []
         };
-        
+        for(var i=1; i<50; i++) {
+            this.setState({
+                [i]:''
+            })
+        }
     } 
 
     componentDidMount() {
@@ -438,32 +441,32 @@ class Pull extends Component {
         }, 1000);
     }
 
+
+
     selectNumber=(e)=>{
-        const newArr=[];
+
         const selected = this.state.selected;
         if (selected.indexOf(e.target.value) != -1 ) {
             const deleted=selected.filter(x=> x != e.target.value)
             this.setState({
-                selected: deleted
+                selected: deleted,
+                [e.target.value]: !this.state[e.target.value]
             })
+
         }
         else if (selected.length >= 6 ) {
-            /* for (let i=0; i<5; i++) {
-                newArr[i]=selected[i+1];
-            }
-            newArr[5]=e.target.value;
-            this.setState({
-                selected: newArr
-            });
-            */
            alert("6개까지만 선택하실 수 있습니다");
         } else {
             this.setState({
-                selected: selected.concat(e.target.value)
+                selected: selected.concat(e.target.value),
+                [e.target.value]: !this.state[e.target.value]
+                
             })
         }
-
+        return true;
+        
     }
+    
     getContractOwner = () => {
         const { owner } = this.state.LotteryContractInstance;
         owner((err,addr) => {
@@ -676,7 +679,11 @@ class Pull extends Component {
                                 <tr>
                                     <td>
                                         {[1,2,3,4,5,6,7].map(
-                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class={classNames('first_line', { clicked: this.state.selected.indexOf(x) != -1 })}> {x} </button>}
+                                            x=> {return <button onClick={(e)=>{
+                                                
+                                                this.selectNumber(e);
+                                            }
+                                            } type="button" value={x} class={`first_line ${this.state[x]}`}> {x} </button>}
                                         )}
                                     
                                     </td>
@@ -684,42 +691,42 @@ class Pull extends Component {
                                 <tr>
                                     <td>
                                     {[8,9,10,11,12,13,14].map(
-                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class="second_line"> {x} </button>}
+                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class={`second_line ${this.state[x]}`}> {x} </button>}
                                         )}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                     {[15,16,17,18,19,20,21].map(
-                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class="third_line"> {x} </button>}
+                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class={`third_line ${this.state[x]}`}> {x} </button>}
                                         )}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                     {[22,23,24,25,26,27,28].map(
-                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class="forth_line"> {x} </button>}
+                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class={`forth_line ${this.state[x]}`}> {x} </button>}
                                         )}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                     {[29,30,31,32,33,34,35].map(
-                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class="fifth_line"> {x} </button>}
+                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class={`fifth_line ${this.state[x]}`}> {x} </button>}
                                         )}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                     {[36,37,38,39,40,41,42].map(
-                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class="sixth_line"> {x} </button>}
+                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class={`sixth_line ${this.state[x]}`}> {x} </button>}
                                         )}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                     {[43,44,45,46,47,48,49].map(
-                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class="last_line"> {x} </button>}
+                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class={`last_line ${this.state[x]}`}> {x} </button>}
                                         )}
                                     </td>
                                 </tr>
