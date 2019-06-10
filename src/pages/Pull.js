@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Modal from 'react-responsive-modal';
+import classNames from 'classnames';
 
 const LotteryContract = window.web3.eth.contract(
     [
@@ -461,6 +462,7 @@ class Pull extends Component {
                 selected: selected.concat(e.target.value)
             })
         }
+
     }
     getContractOwner = () => {
         const { owner } = this.state.LotteryContractInstance;
@@ -601,7 +603,7 @@ class Pull extends Component {
         nowBalance((err,bal) => {
 
             this.setState({
-                nowBal: bal.c[0]
+                nowBal: bal.c[0],
             })
            
         })
@@ -615,6 +617,11 @@ class Pull extends Component {
         this.setState({
             [e.target.name] : e.target.value,
         })
+    }
+
+    forClass = (x) => {
+        if (this.state.selected.indexOf(x) != -1) return "clicked"
+        else return null
     }
     render() {
         return(
@@ -669,7 +676,7 @@ class Pull extends Component {
                                 <tr>
                                     <td>
                                         {[1,2,3,4,5,6,7].map(
-                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class="first_line"> {x} </button>}
+                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class={classNames('first_line', { clicked: this.state.selected.indexOf(x) != -1 })}> {x} </button>}
                                         )}
                                     
                                     </td>

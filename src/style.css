@@ -11,6 +11,10 @@
 #id_input_rg, #ps_input_rg, #user_input_rg, #reg_btn{
 	text-align: center;
 }
+
+.clicked {
+	opacity: 0.5 !important;
+}
 #ball_table{
 	padding: 10px;
 }
