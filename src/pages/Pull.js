@@ -596,13 +596,7 @@ class Pull extends Component {
     render() {
         return(
             <div>
-                {this.state.contractOwner == this.state.nowLoginAddr ?
-                    <div>
-                        <button onClick={this.openLottery}>Open Lottery</button>
-                        <button onClick={this.closeLottery}>Close Lottery</button>
-                    </div>
-                    : 
-                    this.state.nowLoginAddr== "0x0000000000000000000000000000000000000000" ? "로그인안함" :"평민"}
+
             <br />
             <Modal open={this.state.isModalOpen} onClose={this.onCloseModal} center style={nopad}>
                 <div className="popup">
@@ -613,68 +607,108 @@ class Pull extends Component {
                     <button onClick={this.buyToken}>구입</button>
                 </div>
             </Modal>
-                
-                안녕하세요, {this.state.nowLoginName} 님. 남은 토큰:{this.state.nowBal} <button onClick={this.checkBalance}>잔액 새로고침</button> <button onClick={()=>this.setState({isModalOpen:true})}>토큰 사기</button>
-            <br />
-            {this.state.isLotteryClosed==1 ? "현재 베팅 불가능" : "현재 베팅 가능"}
-            <br/>
-            <button onClick={this.Betting}>베팅하기</button>
-            <br/>
-            선택한 숫자: {this.state.selected.map(x=> {return <span>{x} </span>  })}<br/><br/>
-            <br />
             <center>
-                <table id="ball_table">
-                    <tr>
-                        <td>
-                            {[1,2,3,4,5,6,7].map(
-                                x=> {return <button onClick={this.selectNumber} type="button" value={x} class="first_line"> {x} </button>}
-                            )}
-                        
+            <br/>
+    
+            </center>
+            <br/>
+            <center>
+            <table>
+                <tr>
+                    <td>
+                        <center>
+                            <p>안녕하세요, {this.state.nowLoginName} 님.<br/>
+                            남은 토큰:{this.state.nowBal}</p>
+                            <p>{this.state.isLotteryClosed==1 ? "현재상태 : 현재 베팅 불가능" : "현재상태 : 현재 베팅 가능"}<br/></p>
+                            <table>
+                                    <tr>
+                                        <td><center><button onClick={this.checkBalance} class="btn btn-info">잔액 새로고침</button> </center></td>
+                                        <td>　</td>
+                                        <td><center> <button onClick={()=>this.setState({isModalOpen:true})} class="btn btn-info">토큰 사기</button></center></td>
+                                        <td>　</td>
+                                        <td><center><button onClick={this.Betting} class="btn btn-info">베팅하기</button></center></td>
+                                    </tr>
+                                    <tr><td>　　　</td></tr>
+                                    <tr>
+                                        <td><center><button onClick={this.openLottery} class="btn btn-info">Open Lottery</button></center></td>
+                                        <td>　　　</td>
+                                        <td><center><button onClick={this.closeLottery} class="btn btn-info" >Close Lottery</button></center></td>
+                                        <td>　　　</td>
+                                        <td><center><button onClick={this.closeLottery} class="btn btn-info" >Distribute</button></center></td>
+                                    </tr> 
+                            </table>
+                        </center>
+                    </td>
+                    <td>　　　　　　　</td>
+                    <td>
+                        <center>
+                            <table id="ball_table">
+                                <tr>
+                                    <td>
+                                        {[1,2,3,4,5,6,7].map(
+                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class="first_line"> {x} </button>}
+                                        )}
+                                    
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    {[8,9,10,11,12,13,14].map(
+                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class="second_line"> {x} </button>}
+                                        )}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    {[15,16,17,18,19,20,21].map(
+                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class="third_line"> {x} </button>}
+                                        )}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    {[22,23,24,25,26,27,28].map(
+                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class="forth_line"> {x} </button>}
+                                        )}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    {[29,30,31,32,33,34,35].map(
+                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class="fifth_line"> {x} </button>}
+                                        )}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    {[36,37,38,39,40,41,42].map(
+                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class="sixth_line"> {x} </button>}
+                                        )}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                    {[43,44,45,46,47,48,49].map(
+                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class="last_line"> {x} </button>}
+                                        )}
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                            선택한 숫자: {this.state.selected.map(x=> {return <span>{x} </span>  })}<br/><br/>
+                        </center>
                         </td>
                     </tr>
-                    <tr>
-                        <td>
-                        {[8,9,10,11,12,13,14].map(
-                                x=> {return <button onClick={this.selectNumber} type="button" value={x} class="second_line"> {x} </button>}
-                            )}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                        {[15,16,17,18,19,20,21].map(
-                                x=> {return <button onClick={this.selectNumber} type="button" value={x} class="third_line"> {x} </button>}
-                            )}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                        {[22,23,24,25,26,27,28].map(
-                                x=> {return <button onClick={this.selectNumber} type="button" value={x} class="forth_line"> {x} </button>}
-                            )}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                        {[29,30,31,32,33,34,35].map(
-                                x=> {return <button onClick={this.selectNumber} type="button" value={x} class="fifth_line"> {x} </button>}
-                            )}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                        {[36,37,38,39,40,41,42].map(
-                                x=> {return <button onClick={this.selectNumber} type="button" value={x} class="sixth_line"> {x} </button>}
-                            )}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                        {[43,44,45,46,47,48,49].map(
-                                x=> {return <button onClick={this.selectNumber} type="button" value={x} class="last_line"> {x} </button>}
-                            )}
-                        </td>
-                    </tr>
-                </table>
+            </table>
+            </center>
+
+            <br/>
+            <center>
+            {this.state.contractOwner == this.state.nowLoginAddr ?
+                    <div>
+                    </div>
+                    : 
+                    this.state.nowLoginAddr== "0x0000000000000000000000000000000000000000" ? "로그인안함" :"평민"}
             </center>
         </div>
         );

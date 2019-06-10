@@ -535,9 +535,7 @@ class Main extends Component {
             <button onClick={this.handleLogout}>로그아웃</button>
             <Link to="/pull">뽑기페이지로</Link>
             <br />
-            로터리의 주인은? 
-            <button onClick={this.getContractOwner}>클릭</button>
-            {this.state.contractOwner}
+           {this.state.contractOwner}
             <br/>
             
             <center>
