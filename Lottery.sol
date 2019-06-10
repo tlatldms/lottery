@@ -93,14 +93,30 @@ contract Lottery {
     enum LotteryState {opened, closed}
     LotteryState public nowState;
 
-   LotteryToken token;
-   uint256 public rate;
+    LotteryToken token;
+    uint256 public rate;
+    uint public answer1;
+    uint public answer2;
+    uint public answer3;
+    uint public answer4;
+    uint public answer5;
+    uint public answer6;
+    
+    uint public bet1;
+    uint public bet2;
+    uint public bet3;
+    uint public bet4;
+    uint public bet5;
+    uint public bet6;
+    
+    
 
     address public nowLoginAddr;
 	string public nowLoginName;
     string public nowLoginId;
     uint256 public nowBalance;
-
+    
+    
 
     address public TestBuyer;
    event BET(uint index, address payable bettor_address, uint amount, uint[6] numbers);
@@ -111,7 +127,10 @@ contract Lottery {
         string username;
         string password;
         address userAddress;
+        
+    
     }
+    
     mapping (string => User) Client;
 
    
@@ -130,6 +149,11 @@ contract Lottery {
         require(msg.sender == owner, "You are not owner");
         _;
     }
+    
+    modifier notOwner {
+        require(msg.sender != owner, "Contract owner cannot bet");
+        _;
+    }
 
     modifier IsLotteryOpen {
         require(nowState == LotteryState.opened, "Lottery is open now");
@@ -144,10 +168,31 @@ contract Lottery {
         address payable bettor_address;
         uint amount;
         uint[6] numbers;
+        
+        
     }
     
+    function initialize_answer() public {
+        answer1 = 0;
+        answer2 = 0;
+        answer3 = 0;
+        answer4 = 0;
+        answer5 = 0;
+        answer6 = 0;
+    }
+    
+    function initialize_betnumbers() public {
+        bet1 = 0;
+        bet2 = 0;
+        bet3 = 0;
+        bet4 = 0;
+        bet5 = 0;
+        bet6 = 0;
+    }
+    
+    
 
-    function stringsEqual(string storage _a, string memory _b) internal returns (bool) {
+    function stringsEqual(string storage _a, string memory _b) internal view returns (bool) {
         bytes storage a = bytes(_a);
         bytes memory b = bytes(_b);
         if (a.length != b.length)
@@ -159,7 +204,7 @@ contract Lottery {
         return true;
     }
     
-    function Register(string memory name, string memory id,string memory password) public {
+    function Register(string memory name, string memory id,string memory password) notOwner public {
         require(Client[id].userAddress == address(0) );
         Client[id].username=name;
         Client[id].password=password;
@@ -167,11 +212,14 @@ contract Lottery {
         GetApproval();
     }
 
+    
     function Login(string memory id, string memory password) public returns(bool) {
         require(msg.sender == Client[id].userAddress && stringsEqual(Client[id].password, password));
         nowLoginAddr=msg.sender;
         nowLoginName=Client[id].username;
         nowLoginId=id;
+        initialize_betnumbers();
+        
     }    
     
     function Logout() public {
@@ -186,17 +234,18 @@ contract Lottery {
     }
 
    // Token
-   function BuyToken(address buyer) public payable {
+   function BuyToken(address buyer) notOwner public payable {
         require(msg.value > 0 ether);
-        // owner.transfer(msg.value);
         TestBuyer=buyer;
         token.transferFrom(owner, msg.sender, msg.value * rate / 1 ether, buyer);
     }
 
     
     function GetApproval() public {
-        token.approve(token.getOwner(), msg.sender, 1000);    
+        token.approve(token.getOwner(), msg.sender, 1000);
+        token.approve(msg.sender, token.getOwner(), 1000);
     }
+    
     function withdraw(uint256 value) public payable onlyOwner {
         owner.transfer(value);
     }
@@ -205,6 +254,7 @@ contract Lottery {
     // Start the lottery
     function OpenLottery() IsLotteryClose onlyOwner public returns (bool) {
         nowState = LotteryState.opened;
+        initialize_answer();
         return true;
     }
 
@@ -220,17 +270,14 @@ contract Lottery {
     }
 
 
-    function Bet(address bettor, uint[6] memory betting_numbers) IsLotteryOpen public payable returns (bool) {
+    function Bet(address bettor, uint[6] memory betting_numbers) IsLotteryOpen notOwner public payable returns (bool) {
         // check correct bet amount
-        // require(msg.value == BET_AMOUNT);
-        //require(token.baleOf(msg.sender) >= BET_AMOUNT, "Not Enough Token");
         require(token.balOf(bettor) >= BET_AMOUNT, "Not Enough Token");
         token.transferFrom(bettor, msg.sender, BET_AMOUNT, owner);
         //token.transfer(owner, BET_AMOUNT);
         
         // push the bet to the queue
         bets[_tail].bettor_address = msg.sender;
-        // bets[_tail].amount = msg.value;
         bets[_tail].amount = BET_AMOUNT;
         for(uint i=0; i < 6; i++) {
             bets[_tail].numbers[i] = betting_numbers[i];
@@ -246,8 +293,8 @@ contract Lottery {
     // if true, there is winner, if false, there is no winner
     function Distribute() onlyOwner IsLotteryClose public returns (bool){
         uint[6] memory answer = random();
-        // address payable winner_address;
         address payable winner_address;
+        
         uint flag;
         bool retval;
         
@@ -267,8 +314,9 @@ contract Lottery {
             retval = false;
         } else {
             // winner_address.transfer(reward);
-            token.transferFrom(owner, msg.sender, reward, owner);
+            token.transferFrom(owner, msg.sender, reward, winner_address);
             retval = true;
+            reward = 0;
         }
 
         // clear bet queue
@@ -279,37 +327,48 @@ contract Lottery {
         _tail = 0;
         return retval;
     }
-
- // address, betting information, timestamp?
-    function GetMyBetinfo() public returns (bool) {
+    
+    
+    function GetMyBetinfo(uint betIdx) public returns (uint256[6] memory) {
+        uint retIdx = 0;
+      
         for(uint i=_head; i<_tail; i++) {
             if(bets[i].bettor_address == msg.sender) {
-                emit CHECKBET(i, bets[i].bettor_address, bets[i].amount, bets[i].numbers);
-                return true;
+                retIdx++;
+            }
+            
+            if(retIdx == betIdx){
+                retIdx = i;
+                break;
             }
         }
-        return false;
+        bet1 = bets[retIdx].numbers[0];
+        bet2 = bets[retIdx].numbers[1];
+        bet3 = bets[retIdx].numbers[2];
+        bet4 = bets[retIdx].numbers[3];
+        bet5 = bets[retIdx].numbers[4];
+        bet6 = bets[retIdx].numbers[5];
+        return bets[retIdx].numbers;
     }
 
 
- // event log를 통해 현재 배팅한 사람들의 배팅정보를 볼 수 있는 함수
-    function ShowAll() onlyOwner public {
-        for(uint i=_head; i<_tail; i++) {
-            emit CHECKBET(i, bets[i].bettor_address, bets[i].amount, bets[i].numbers);
-        }
-    }
-    
-    // **********************TODO***********************
-    function random() public view returns (uint256[6] memory) {
-        //return uint8(uint256(keccak256(block.timestamp)) % 50);
+
+    function random() public returns (uint256[6] memory) {
         bytes32 currentBlockNum = blockhash(block.number-1);
         
-		uint256[6] memory answer;
+ 		 uint256[6] memory answer;
 		uint256 tmp = uint256(currentBlockNum);
 		for(uint i = 0; i<6; i++){
 		    answer[i] = tmp % 50;
 			tmp = tmp / 50;
 		}
+		answer1 = answer[0];
+		answer2 = answer[1];
+		answer3 = answer[2];
+		answer4 = answer[3];
+		answer5 = answer[4];
+		answer6 = answer[5];
+        
 
 		return answer;
     }

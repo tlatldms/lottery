@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import Modal from 'react-responsive-modal';
+
 import win_img from '../asset/win.png';
 import lose_img from '../asset/lose.png';
+import classNames from 'classnames';
 
 const LotteryContract = window.web3.eth.contract(
     [
@@ -15,6 +17,24 @@ const LotteryContract = window.web3.eth.contract(
                     "type": "bool"
                 }
             ],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [],
+            "name": "initialize_betnumbers",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [],
+            "name": "initialize_answer",
+            "outputs": [],
             "payable": false,
             "stateMutability": "nonpayable",
             "type": "function"
@@ -64,6 +84,34 @@ const LotteryContract = window.web3.eth.contract(
         {
             "constant": true,
             "inputs": [],
+            "name": "answer6",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "answer4",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
             "name": "nowLoginName",
             "outputs": [
                 {
@@ -87,6 +135,20 @@ const LotteryContract = window.web3.eth.contract(
         {
             "constant": true,
             "inputs": [],
+            "name": "bet1",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [],
             "name": "random",
             "outputs": [
                 {
@@ -95,7 +157,7 @@ const LotteryContract = window.web3.eth.contract(
                 }
             ],
             "payable": false,
-            "stateMutability": "view",
+            "stateMutability": "nonpayable",
             "type": "function"
         },
         {
@@ -110,6 +172,48 @@ const LotteryContract = window.web3.eth.contract(
             "outputs": [],
             "payable": false,
             "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "answer3",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "bet4",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "answer2",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
             "type": "function"
         },
         {
@@ -186,6 +290,25 @@ const LotteryContract = window.web3.eth.contract(
             "constant": false,
             "inputs": [
                 {
+                    "name": "betIdx",
+                    "type": "uint256"
+                }
+            ],
+            "name": "GetMyBetinfo",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256[6]"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
                     "name": "name",
                     "type": "string"
                 },
@@ -205,6 +328,20 @@ const LotteryContract = window.web3.eth.contract(
             "type": "function"
         },
         {
+            "constant": true,
+            "inputs": [],
+            "name": "bet6",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
             "constant": false,
             "inputs": [],
             "name": "OpenLottery",
@@ -219,17 +356,45 @@ const LotteryContract = window.web3.eth.contract(
             "type": "function"
         },
         {
-            "constant": false,
+            "constant": true,
             "inputs": [],
-            "name": "GetMyBetinfo",
+            "name": "answer1",
             "outputs": [
                 {
                     "name": "",
-                    "type": "bool"
+                    "type": "uint256"
                 }
             ],
             "payable": false,
-            "stateMutability": "nonpayable",
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "bet2",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "bet5",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
             "type": "function"
         },
         {
@@ -290,6 +455,20 @@ const LotteryContract = window.web3.eth.contract(
         {
             "constant": true,
             "inputs": [],
+            "name": "bet3",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
             "name": "nowLoginAddr",
             "outputs": [
                 {
@@ -302,12 +481,17 @@ const LotteryContract = window.web3.eth.contract(
             "type": "function"
         },
         {
-            "constant": false,
+            "constant": true,
             "inputs": [],
-            "name": "ShowAll",
-            "outputs": [],
+            "name": "answer5",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
             "payable": false,
-            "stateMutability": "nonpayable",
+            "stateMutability": "view",
             "type": "function"
         },
         {
@@ -419,13 +603,16 @@ class Pull extends Component {
 
     constructor (props) {
         super (props);
-
         this.state = {
-            LotteryContractInstance: LotteryContract.at('0x1c3c6de3548491741ea091b06efefd721bc4997f'),
+            LotteryContractInstance: LotteryContract.at('0xdaaa2e4e0cec10798853238db41fb79e80cb357d'),
             destructed: false,
             selected: []
         };
-        
+        for(var i=1; i<50; i++) {
+            this.setState({
+                [i]:''
+            })
+        }
     } 
 
     componentDidMount() {
@@ -435,34 +622,36 @@ class Pull extends Component {
         this.getLotteryState();
         this.interval = setInterval(() => {
             this.nowBalance();
+            this.getTotalReward();
         }, 1000);
     }
 
+
+
     selectNumber=(e)=>{
-        const newArr=[];
+
         const selected = this.state.selected;
         if (selected.indexOf(e.target.value) != -1 ) {
             const deleted=selected.filter(x=> x != e.target.value)
             this.setState({
-                selected: deleted
+                selected: deleted,
+                [e.target.value]: !this.state[e.target.value]
             })
+
         }
         else if (selected.length >= 6 ) {
-            /* for (let i=0; i<5; i++) {
-                newArr[i]=selected[i+1];
-            }
-            newArr[5]=e.target.value;
-            this.setState({
-                selected: newArr
-            });
-            */
            alert("6개까지만 선택하실 수 있습니다");
         } else {
             this.setState({
-                selected: selected.concat(e.target.value)
+                selected: selected.concat(e.target.value),
+                [e.target.value]: !this.state[e.target.value]
+                
             })
         }
+        return true;
+        
     }
+    
     getContractOwner = () => {
         const { owner } = this.state.LotteryContractInstance;
         owner((err,addr) => {
@@ -547,6 +736,27 @@ class Pull extends Component {
         });
     }
     
+    distribute = () => {
+        const {  Distribute } = this.state.LotteryContractInstance;
+        Distribute(
+            {
+                gas: 300000,
+                from: window.web3.eth.accounts[0],
+                value: window.web3.toWei(0,'ether')
+            },(err, result) => {
+                console.log(err, result);
+        });
+    }
+
+    getTotalReward=()=>{
+        const { GetReward } = this.state.LotteryContractInstance;
+        GetReward((err,rew) => {
+            this.setState({
+                nowReward: rew.c[0],
+            })
+        })
+    }
+
     buyToken= () => {
         const { BuyToken } = this.state.LotteryContractInstance;
         BuyToken(
@@ -581,7 +791,7 @@ class Pull extends Component {
         nowBalance((err,bal) => {
 
             this.setState({
-                nowBal: bal.c[0]
+                nowBal: bal.c[0],
             })
            
         })
@@ -589,21 +799,27 @@ class Pull extends Component {
 
     onCloseModal = () => {
         this.setState({ isModalOpen: false });
+
     };
 
     onCloseModal2 = () =>{
         this.setState({ isModalOpen2: false});
     };
 
+
     handleChange = (e) => {
         this.setState({
             [e.target.name] : e.target.value,
         })
     }
+
+    forClass = (x) => {
+        if (this.state.selected.indexOf(x) != -1) return "clicked"
+        else return null
+    }
     render() {
         return(
             <div>
-
             <br />
             <Modal open={this.state.isModalOpen} onClose={this.onCloseModal} center style={nopad}>
                 <div className="popup">
@@ -638,6 +854,7 @@ class Pull extends Component {
                         <center>
                             <p>안녕하세요, {this.state.nowLoginName} 님.<br/>
                             남은 토큰:{this.state.nowBal}</p>
+                            <p>{this.state.nowReward ? <span>현재 쌓인 Reward: {this.state.nowReward} </span> : "아직 상금이 없습니다" } </p>
                             <p>{this.state.isLotteryClosed==1 ? "현재상태 : 현재 베팅 불가능" : "현재상태 : 현재 베팅 가능"}<br/></p>
                             <table>
                                     <tr>
@@ -668,7 +885,11 @@ class Pull extends Component {
                                 <tr>
                                     <td>
                                         {[1,2,3,4,5,6,7].map(
-                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class="first_line"> {x} </button>}
+                                            x=> {return <button onClick={(e)=>{
+                                                
+                                                this.selectNumber(e);
+                                            }
+                                            } type="button" value={x} class={`first_line ${this.state[x]}`}> {x} </button>}
                                         )}
                                     
                                     </td>
@@ -676,42 +897,42 @@ class Pull extends Component {
                                 <tr>
                                     <td>
                                     {[8,9,10,11,12,13,14].map(
-                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class="second_line"> {x} </button>}
+                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class={`second_line ${this.state[x]}`}> {x} </button>}
                                         )}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                     {[15,16,17,18,19,20,21].map(
-                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class="third_line"> {x} </button>}
+                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class={`third_line ${this.state[x]}`}> {x} </button>}
                                         )}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                     {[22,23,24,25,26,27,28].map(
-                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class="forth_line"> {x} </button>}
+                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class={`forth_line ${this.state[x]}`}> {x} </button>}
                                         )}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                     {[29,30,31,32,33,34,35].map(
-                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class="fifth_line"> {x} </button>}
+                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class={`fifth_line ${this.state[x]}`}> {x} </button>}
                                         )}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                     {[36,37,38,39,40,41,42].map(
-                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class="sixth_line"> {x} </button>}
+                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class={`sixth_line ${this.state[x]}`}> {x} </button>}
                                         )}
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                     {[43,44,45,46,47,48,49].map(
-                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class="last_line"> {x} </button>}
+                                            x=> {return <button onClick={this.selectNumber} type="button" value={x} class={`last_line ${this.state[x]}`}> {x} </button>}
                                         )}
                                     </td>
                                 </tr>
