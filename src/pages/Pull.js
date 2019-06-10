@@ -20,6 +20,52 @@ const LotteryContract = window.web3.eth.contract(
             "type": "function"
         },
         {
+            "constant": false,
+            "inputs": [],
+            "name": "initialize_betnumbers",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "isdistributed",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "amIwin",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [],
+            "name": "initialize_answer",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
             "constant": true,
             "inputs": [],
             "name": "rate",
@@ -64,6 +110,34 @@ const LotteryContract = window.web3.eth.contract(
         {
             "constant": true,
             "inputs": [],
+            "name": "answer6",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "answer4",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
             "name": "nowLoginName",
             "outputs": [
                 {
@@ -87,6 +161,20 @@ const LotteryContract = window.web3.eth.contract(
         {
             "constant": true,
             "inputs": [],
+            "name": "bet1",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [],
             "name": "random",
             "outputs": [
                 {
@@ -95,7 +183,7 @@ const LotteryContract = window.web3.eth.contract(
                 }
             ],
             "payable": false,
-            "stateMutability": "view",
+            "stateMutability": "nonpayable",
             "type": "function"
         },
         {
@@ -110,6 +198,57 @@ const LotteryContract = window.web3.eth.contract(
             "outputs": [],
             "payable": false,
             "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "answer3",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "bet4",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [],
+            "name": "AmIwin",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "answer2",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
             "type": "function"
         },
         {
@@ -186,6 +325,25 @@ const LotteryContract = window.web3.eth.contract(
             "constant": false,
             "inputs": [
                 {
+                    "name": "betIdx",
+                    "type": "uint256"
+                }
+            ],
+            "name": "GetMyBetinfo",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256[6]"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
                     "name": "name",
                     "type": "string"
                 },
@@ -205,6 +363,34 @@ const LotteryContract = window.web3.eth.contract(
             "type": "function"
         },
         {
+            "constant": true,
+            "inputs": [],
+            "name": "bet6",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "winner_address",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "address"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
             "constant": false,
             "inputs": [],
             "name": "OpenLottery",
@@ -219,17 +405,45 @@ const LotteryContract = window.web3.eth.contract(
             "type": "function"
         },
         {
-            "constant": false,
+            "constant": true,
             "inputs": [],
-            "name": "GetMyBetinfo",
+            "name": "answer1",
             "outputs": [
                 {
                     "name": "",
-                    "type": "bool"
+                    "type": "uint256"
                 }
             ],
             "payable": false,
-            "stateMutability": "nonpayable",
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "bet2",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "bet5",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
             "type": "function"
         },
         {
@@ -290,6 +504,20 @@ const LotteryContract = window.web3.eth.contract(
         {
             "constant": true,
             "inputs": [],
+            "name": "bet3",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
             "name": "nowLoginAddr",
             "outputs": [
                 {
@@ -302,12 +530,17 @@ const LotteryContract = window.web3.eth.contract(
             "type": "function"
         },
         {
-            "constant": false,
+            "constant": true,
             "inputs": [],
-            "name": "ShowAll",
-            "outputs": [],
+            "name": "answer5",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
             "payable": false,
-            "stateMutability": "nonpayable",
+            "stateMutability": "view",
             "type": "function"
         },
         {
@@ -421,7 +654,7 @@ class Pull extends Component {
         super (props);
 
         this.state = {
-            LotteryContractInstance: LotteryContract.at('0x1c3c6de3548491741ea091b06efefd721bc4997f'),
+            LotteryContractInstance: LotteryContract.at('0xc810dcceca8af00cd05b338e73e1f90d6a9ceb35'),
             destructed: false,
             selected: []
         };
@@ -433,9 +666,14 @@ class Pull extends Component {
         this.getLoginAddr();
         this.getLoginName();
         this.getLotteryState();
+        this.getAnswer();
+        this.getIfWin();
+        this.getIfDistributed();
+
         this.interval = setInterval(() => {
             this.nowBalance();
-        }, 1000);
+            this.getReward();
+        }, 2000);
     }
 
     selectNumber=(e)=>{
@@ -497,7 +735,16 @@ class Pull extends Component {
         const { nowState } = this.state.LotteryContractInstance;
         nowState((err,ret) => {
             this.setState({
-                isLotteryClosed: ret,
+                isLotteryClosed: ret.c[0],
+            })
+        })
+    }
+
+    getReward=() => {
+        const { GetReward } = this.state.LotteryContractInstance;
+        GetReward((err,ret) => {
+            this.setState({
+                nowReward: ret.c[0],
             })
         })
     }
@@ -576,16 +823,101 @@ class Pull extends Component {
         });
     }
 
+    amIWinFunc= () => {      
+        const { AmIwin } = this.state.LotteryContractInstance;
+        AmIwin(
+            {
+                gas: 300000,
+                from: window.web3.eth.accounts[0],
+                value: window.web3.toWei(0,'ether')
+            },(err, result) => {
+                console.log(err, result);
+        });
+    }
+
+    getIfWin=()=>{
+        const { amIwin } = this.state.LotteryContractInstance;
+        amIwin((err,ret) => {
+            this.setState({
+                amIwin: ret
+            })
+        })
+    }
+
     nowBalance= () =>{
         const { nowBalance } = this.state.LotteryContractInstance;
         nowBalance((err,bal) => {
-
             this.setState({
                 nowBal: bal.c[0]
             })
-           
         })
     }
+
+    getIfDistributed= () =>{
+        const { isdistributed } = this.state.LotteryContractInstance;
+        isdistributed((err,bol) => {
+            this.setState({
+                isDistributed: bol
+            })
+        })
+    }
+    getAnswer = () => {
+        this.getAnswer1();
+        this.getAnswer2();
+        this.getAnswer3();
+        this.getAnswer4();
+        this.getAnswer5();
+        this.getAnswer6();
+    }
+    getAnswer1=()=>{
+        const { answer1 }= this.state.LotteryContractInstance;
+        answer1((err,ret) => {
+            this.setState({
+                answer1: ret
+            })
+        });
+    }
+    getAnswer2=()=>{
+        const { answer2 }= this.state.LotteryContractInstance;
+        answer2((err,ret) => {
+            this.setState({
+                answer2: ret
+            })
+        });
+    }
+    getAnswer3=()=>{
+        const { answer3 }= this.state.LotteryContractInstance;
+        answer3((err,ret) => {
+            this.setState({
+                answer3: ret
+            })
+        });
+    }
+    getAnswer4=()=>{
+        const { answer4 }= this.state.LotteryContractInstance;
+        answer4((err,ret) => {
+            this.setState({
+                answer4: ret
+            })
+        });
+    }
+    getAnswer5=()=>{
+        const { answer5 }= this.state.LotteryContractInstance;
+        answer5((err,ret) => {
+            this.setState({
+                answer5: ret
+            })
+        });
+    }
+    getAnswer6=()=>{
+        const { answer6 }= this.state.LotteryContractInstance;
+        answer6((err,ret) => {
+            this.setState({
+                answer6: ret
+            })
+        });
+    }
+
 
     onCloseModal = () => {
         this.setState({ isModalOpen: false });
@@ -616,14 +948,22 @@ class Pull extends Component {
             </Modal>
             <Modal open={this.state.isModalOpen2} onClose={this.onCloseModal2} center style={nopad}>
                 <div class="result">
+                    {this.state.amIwin 
+                    ?
+                    <React.Fragment>
                     <center><img id="input" src={win_img} alt=""/></center>
-                    
                     <br/>
                     <h1> You win the lottery !!!!!!!!!</h1>
-                    <br/>
-                    <center><img id="input2" src={lose_img} alt=""/></center>
+                    </React.Fragment>
+                :
+                <React.Fragment>
+                <center><img id="input2" src={lose_img} alt=""/></center>
                     <br/>
                     <h1> You lose the lottery ........ OTL</h1>
+                    </React.Fragment>
+                }
+                    
+                    
                 </div>
             </Modal>
             <center>
@@ -638,6 +978,7 @@ class Pull extends Component {
                         <center>
                             <p>안녕하세요, {this.state.nowLoginName} 님.<br/>
                             남은 토큰:{this.state.nowBal}</p>
+                            <p>현재 남은 리워드: {this.state.nowReward}</p>
                             <p>{this.state.isLotteryClosed==1 ? "현재상태 : 현재 베팅 불가능" : "현재상태 : 현재 베팅 가능"}<br/></p>
                             <table>
                                     <tr>
@@ -656,7 +997,12 @@ class Pull extends Component {
                                         <td><center><button onClick={this.closeLottery} class="btn btn-info" >Distribute</button></center></td>
                                     </tr>
                             </table>
-                            <center><button onClick={()=>this.setState({isModalOpen2:true})} class="btn btn-warning btn-lg">Result</button></center>
+                            <br />
+                            <center><button onClick={()=>{
+                                if (this.state.isDistributed) {
+                                    this.setState({isModalOpen2:true})
+                                } else alert("아직 진행중인 Lottery입니다.");
+                            }} class="btn btn-warning btn-lg">Result</button></center>
                         </center>
                     </td>
                     <td>　　　　　　　</td>

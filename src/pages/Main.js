@@ -29,6 +29,34 @@ const LotteryContract = window.web3.eth.contract(
             "type": "function"
         },
         {
+            "constant": true,
+            "inputs": [],
+            "name": "isdistributed",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "amIwin",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
             "constant": false,
             "inputs": [],
             "name": "initialize_answer",
@@ -201,6 +229,15 @@ const LotteryContract = window.web3.eth.contract(
             "type": "function"
         },
         {
+            "constant": false,
+            "inputs": [],
+            "name": "AmIwin",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
             "constant": true,
             "inputs": [],
             "name": "answer2",
@@ -333,6 +370,20 @@ const LotteryContract = window.web3.eth.contract(
                 {
                     "name": "",
                     "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "winner_address",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "address"
                 }
             ],
             "payable": false,
@@ -601,7 +652,7 @@ class Main extends Component {
         super (props);
 
         this.state = {
-            LotteryContractInstance: LotteryContract.at('0xdaaa2e4e0cec10798853238db41fb79e80cb357d'),
+            LotteryContractInstance: LotteryContract.at('0xc810dcceca8af00cd05b338e73e1f90d6a9ceb35'),
             destructed: false
         };
     } 
