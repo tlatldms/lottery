@@ -108,9 +108,20 @@ contract Lottery {
 
    LotteryToken token;
    uint256 public rate;
-    
+
+    address public nowLoginAddr;
+	string public nowLoginName;
+
    event BET(uint index, address payable bettor_address, uint amount, uint[6] numbers);
     event CHECKBET(uint index, address payable bettor_address, uint amount, uint[6] numbers);
+
+    
+    struct User {
+        string username;
+        string password;
+        address userAddress;
+    }
+    mapping (string => User) Client;
 
    
     constructor(LotteryToken _LotteryToken, uint256 _rate) public {
@@ -137,6 +148,45 @@ contract Lottery {
         require(state == LotteryState.opened, "Lottery is closed now");
         _;
     }
+
+    //시은추가: 회원가입&로그인
+    function stringsEqual(string storage _a, string memory _b) internal returns (bool) {
+        bytes storage a = bytes(_a);
+        bytes memory b = bytes(_b);
+        if (a.length != b.length)
+        return false;
+        // @todo unroll this loop
+        for (uint i = 0; i < a.length; i ++)
+        if (a[i] != b[i])
+        return false;
+        return true;
+    }
+    
+    function Register(string memory name, string memory id,string memory password) public {
+        require(Client[id].userAddress == address(0) );
+        Client[id].username=name;
+        Client[id].password=password;
+        Client[id].userAddress=msg.sender;
+    }
+
+    function Login(string memory id, string memory password) public returns(bool) {
+        
+        require(msg.sender == Client[id].userAddress && stringsEqual(Client[id].password, password));
+        nowLoginAddr=msg.sender;
+        nowLoginName=Client[id].username;
+    }    
+	// Token
+	function BuyToken(address buyer) public payable {
+        require(msg.value > 0 ether);
+        // owner.transfer(msg.value);
+        testValue=msg.value * rate / 1 ether;
+        token.transferFrom(owner, msg.sender, msg.value * rate / 1 ether, buyer);
+    }
+    
+    function GetApproval() public {
+        token.approve(msg.sender, 100);    
+    }
+
 
     struct BettorInfo {
         address payable bettor_address;
