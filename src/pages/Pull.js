@@ -19,6 +19,24 @@ const LotteryContract = window.web3.eth.contract(
             "type": "function"
         },
         {
+            "constant": false,
+            "inputs": [],
+            "name": "initialize_betnumbers",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [],
+            "name": "initialize_answer",
+            "outputs": [],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
             "constant": true,
             "inputs": [],
             "name": "rate",
@@ -63,6 +81,34 @@ const LotteryContract = window.web3.eth.contract(
         {
             "constant": true,
             "inputs": [],
+            "name": "answer6",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "answer4",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
             "name": "nowLoginName",
             "outputs": [
                 {
@@ -86,6 +132,20 @@ const LotteryContract = window.web3.eth.contract(
         {
             "constant": true,
             "inputs": [],
+            "name": "bet1",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [],
             "name": "random",
             "outputs": [
                 {
@@ -94,7 +154,7 @@ const LotteryContract = window.web3.eth.contract(
                 }
             ],
             "payable": false,
-            "stateMutability": "view",
+            "stateMutability": "nonpayable",
             "type": "function"
         },
         {
@@ -109,6 +169,48 @@ const LotteryContract = window.web3.eth.contract(
             "outputs": [],
             "payable": false,
             "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "answer3",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "bet4",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "answer2",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
             "type": "function"
         },
         {
@@ -185,6 +287,25 @@ const LotteryContract = window.web3.eth.contract(
             "constant": false,
             "inputs": [
                 {
+                    "name": "betIdx",
+                    "type": "uint256"
+                }
+            ],
+            "name": "GetMyBetinfo",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256[6]"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
                     "name": "name",
                     "type": "string"
                 },
@@ -204,6 +325,20 @@ const LotteryContract = window.web3.eth.contract(
             "type": "function"
         },
         {
+            "constant": true,
+            "inputs": [],
+            "name": "bet6",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
             "constant": false,
             "inputs": [],
             "name": "OpenLottery",
@@ -218,17 +353,45 @@ const LotteryContract = window.web3.eth.contract(
             "type": "function"
         },
         {
-            "constant": false,
+            "constant": true,
             "inputs": [],
-            "name": "GetMyBetinfo",
+            "name": "answer1",
             "outputs": [
                 {
                     "name": "",
-                    "type": "bool"
+                    "type": "uint256"
                 }
             ],
             "payable": false,
-            "stateMutability": "nonpayable",
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "bet2",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
+            "name": "bet5",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
             "type": "function"
         },
         {
@@ -289,6 +452,20 @@ const LotteryContract = window.web3.eth.contract(
         {
             "constant": true,
             "inputs": [],
+            "name": "bet3",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [],
             "name": "nowLoginAddr",
             "outputs": [
                 {
@@ -301,12 +478,17 @@ const LotteryContract = window.web3.eth.contract(
             "type": "function"
         },
         {
-            "constant": false,
+            "constant": true,
             "inputs": [],
-            "name": "ShowAll",
-            "outputs": [],
+            "name": "answer5",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
             "payable": false,
-            "stateMutability": "nonpayable",
+            "stateMutability": "view",
             "type": "function"
         },
         {
@@ -419,7 +601,7 @@ class Pull extends Component {
     constructor (props) {
         super (props);
         this.state = {
-            LotteryContractInstance: LotteryContract.at('0x1c3c6de3548491741ea091b06efefd721bc4997f'),
+            LotteryContractInstance: LotteryContract.at('0xdaaa2e4e0cec10798853238db41fb79e80cb357d'),
             destructed: false,
             selected: []
         };
