@@ -91,7 +91,7 @@ contract Lottery {
     uint BET_AMOUNT = 1;           // bet amount will be fixed, may be changed
     //uint constant BLOCK_INTERVAL = 256;
     enum LotteryState {opened, closed}
-    LotteryState state;
+    LotteryState public nowState;
 
    LotteryToken token;
    uint256 public rate;
@@ -118,7 +118,7 @@ contract Lottery {
     constructor(LotteryToken _LotteryToken, uint256 _rate) public {
         //BEFORE : owner = _LotteryToken.getOwner();
     owner=msg.sender;
-    state = LotteryState.closed;
+    nowState = LotteryState.closed;
       token = LotteryToken(_LotteryToken);
       rate = _rate;
       _head = 0;
@@ -132,12 +132,12 @@ contract Lottery {
     }
 
     modifier IsLotteryOpen {
-        require(state == LotteryState.opened, "Lottery is open now");
+        require(nowState == LotteryState.opened, "Lottery is open now");
         _;
     }
 
     modifier IsLotteryClose {
-        require(state == LotteryState.closed, "Lottery is closed now");
+        require(nowState == LotteryState.closed, "Lottery is closed now");
         _;
     }
     struct BettorInfo {
@@ -146,8 +146,7 @@ contract Lottery {
         uint[6] numbers;
     }
     
-    
-    //시은추가: 회원가입&로그인
+
     function stringsEqual(string storage _a, string memory _b) internal returns (bool) {
         bytes storage a = bytes(_a);
         bytes memory b = bytes(_b);
@@ -205,13 +204,13 @@ contract Lottery {
     
     // Start the lottery
     function OpenLottery() IsLotteryClose onlyOwner public returns (bool) {
-        state = LotteryState.opened;
+        nowState = LotteryState.opened;
         return true;
     }
 
     // End the lottery
     function CloseLottery() IsLotteryOpen onlyOwner public returns (bool) {
-        state = LotteryState.closed;
+        nowState = LotteryState.closed;
         return true;
     }
 
