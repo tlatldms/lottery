@@ -373,11 +373,7 @@ contract Lottery {
 		return answer;
     }
 
-<<<<<<< HEAD
     
     function () external payable { }
     
 }
-=======
-}
->>>>>>> 8403fe582a209cfbf17774e38c48bb11ef9b953e
