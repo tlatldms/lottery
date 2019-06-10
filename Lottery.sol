@@ -368,7 +368,8 @@ contract Lottery {
 
 
 
-	function random() public returns (uint256[6] memory) {
+	function random() public onlyOwner returns (uint256[6] memory) {
+		require(isdistributed == false);
 		bytes32 currentBlockNum = blockhash(block.number-1);
 
 		uint256[6] memory answer;
