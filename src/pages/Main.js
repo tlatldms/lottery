@@ -778,13 +778,17 @@ class Main extends Component {
             <br/>
             
             <center>
-            	<table>
-	            	<tr>
-	            		<td><center><button id="register" type="button" class="btn btn-success btn-lg">REGISTER</button></center></td>
-	            		<td>　　　</td>
-	            		<td><center><button id="login" type="button" class="btn btn-primary btn-lg">LOGIN</button></center></td>
-	            	</tr>
-            	</table>
+            <table>
+                  <tr>
+                     <td><center><button id="register" type="button" class="btn btn-success btn-lg">REGISTER</button></center></td>
+                     <td>　　　</td>
+                     <td><center><button id="login" type="button" class="btn btn-primary btn-lg">LOGIN</button></center></td>
+                        <td>　　　</td>
+                        <td><center><button onClick={this.handleLogout} class="btn btn-warning btn-lg">LOGOUT</button></center></td>
+                        <td>　　　</td>
+                        <td><center>{this.state.nowLoginName ? <Link to="/pull"><button type="button" class="btn btn-danger btn-lg">GO TO BET</button></Link> : "로그인이 필요합니다"}</center></td>
+                  </tr>
+               </table>
             </center>
             <div class="fixed-bottom bg-white" id="reg_page">
                <br />>
