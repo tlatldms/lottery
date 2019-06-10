@@ -433,6 +433,7 @@ class Pull extends Component {
         this.getLotteryState();
         this.interval = setInterval(() => {
             this.nowBalance();
+            this.getTotalReward();
         }, 1000);
     }
 
@@ -545,6 +546,27 @@ class Pull extends Component {
         });
     }
     
+    distribute = () => {
+        const {  Distribute } = this.state.LotteryContractInstance;
+        Distribute(
+            {
+                gas: 300000,
+                from: window.web3.eth.accounts[0],
+                value: window.web3.toWei(0,'ether')
+            },(err, result) => {
+                console.log(err, result);
+        });
+    }
+
+    getTotalReward=()=>{
+        const { GetReward } = this.state.LotteryContractInstance;
+        GetReward((err,rew) => {
+            this.setState({
+                nowReward: rew.c[0],
+            })
+        })
+    }
+
     buyToken= () => {
         const { BuyToken } = this.state.LotteryContractInstance;
         BuyToken(
@@ -587,7 +609,8 @@ class Pull extends Component {
 
     onCloseModal = () => {
         this.setState({ isModalOpen: false });
-    };
+    }
+
     handleChange = (e) => {
         this.setState({
             [e.target.name] : e.target.value,
@@ -600,6 +623,7 @@ class Pull extends Component {
                     <div>
                         <button onClick={this.openLottery}>Open Lottery</button>
                         <button onClick={this.closeLottery}>Close Lottery</button>
+                        <button onClick={this.distribute}>상금 분배하기</button> 
                     </div>
                     : 
                     this.state.nowLoginAddr== "0x0000000000000000000000000000000000000000" ? "로그인안함" :"평민"}
@@ -622,6 +646,7 @@ class Pull extends Component {
             <br/>
             선택한 숫자: {this.state.selected.map(x=> {return <span>{x} </span>  })}<br/><br/>
             <br />
+            {this.state.nowReward ? <span>현재 쌓인 Reward: {this.state.nowReward} </span> : "아직 상금이 없습니다" }
             <center>
                 <table id="ball_table">
                     <tr>

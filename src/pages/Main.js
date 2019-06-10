@@ -429,6 +429,7 @@ class Main extends Component {
             [e.target.name] : e.target.value,
         })
     }
+
     getContractOwner = () => {
         const { owner } = this.state.LotteryContractInstance;
         owner((err,addr) => {
@@ -440,14 +441,15 @@ class Main extends Component {
             }
         })
     }
-    componentDidMount() {
-        
+
+    componentDidMount() {   
         this.interval = setInterval(() => {
             this.getLoginName();
             this.getLoginAddr();
             this.getLoginId();
           }, 1000);
     }
+
     handleRegister = (e) => {
         e.preventDefault();
         const { Register } = this.state.LotteryContractInstance;
@@ -464,6 +466,7 @@ class Main extends Component {
             }
         )
     }
+
     getLoginName=() => {
         const { nowLoginName } = this.state.LotteryContractInstance;
         nowLoginName((err,name) => {
@@ -484,6 +487,7 @@ class Main extends Component {
             }
         })
     }
+
     getLoginId=() => {
         const { nowLoginId } = this.state.LotteryContractInstance;
         nowLoginId((err,id) => {
@@ -493,6 +497,7 @@ class Main extends Component {
 
         })
     }
+
     handleLogin = (e) => {
         e.preventDefault();
         const { Login } = this.state.LotteryContractInstance;
@@ -521,6 +526,7 @@ class Main extends Component {
             }
         )
     }
+
     render() {
         return (
             <div>
@@ -533,11 +539,8 @@ class Main extends Component {
             현재 로그인 유저 주소: {this.state.nowLoginAddr}
             <br />
             <button onClick={this.handleLogout}>로그아웃</button>
-            <Link to="/pull">뽑기페이지로</Link>
+            {this.state.nowLoginName ? <Link to="/pull">뽑기페이지로</Link> : "로그인이 필요합니다"}
             <br />
-            로터리의 주인은? 
-            <button onClick={this.getContractOwner}>클릭</button>
-            {this.state.contractOwner}
             <br/>
             
             <center>
