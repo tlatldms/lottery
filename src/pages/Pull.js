@@ -4,23 +4,9 @@ import Modal from 'react-responsive-modal';
 const LotteryContract = window.web3.eth.contract(
     [
         {
-            "constant": false,
-            "inputs": [],
-            "name": "CloseLottery",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "bool"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
             "constant": true,
             "inputs": [],
-            "name": "rate",
+            "name": "totalSupply",
             "outputs": [
                 {
                     "name": "",
@@ -34,315 +20,168 @@ const LotteryContract = window.web3.eth.contract(
         {
             "constant": false,
             "inputs": [
+                {
+                    "name": "_from",
+                    "type": "address"
+                },
+                {
+                    "name": "to",
+                    "type": "address"
+                },
                 {
                     "name": "value",
                     "type": "uint256"
-                }
-            ],
-            "name": "withdraw",
-            "outputs": [],
-            "payable": true,
-            "stateMutability": "payable",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "GetReward",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "nowLoginName",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "string"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": false,
-            "inputs": [],
-            "name": "GetApproval",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "constant": false,
-            "inputs": [
-                {
-                    "name": "addr",
-                    "type": "address"
-                }
-            ],
-            "name": "checkBalance",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "nowLoginId",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "string"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "nowBalance",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "testValue",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "uint256"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "owner",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": false,
-            "inputs": [
-                {
-                    "name": "name",
-                    "type": "string"
                 },
-                {
-                    "name": "id",
-                    "type": "string"
-                },
-                {
-                    "name": "password",
-                    "type": "string"
-                }
-            ],
-            "name": "Register",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "constant": false,
-            "inputs": [],
-            "name": "OpenLottery",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "bool"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "constant": false,
-            "inputs": [],
-            "name": "GetMyBetinfo",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "bool"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "constant": false,
-            "inputs": [
-                {
-                    "name": "id",
-                    "type": "string"
-                },
-                {
-                    "name": "password",
-                    "type": "string"
-                }
-            ],
-            "name": "Login",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "bool"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "constant": false,
-            "inputs": [],
-            "name": "Logout",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "constant": true,
-            "inputs": [],
-            "name": "nowLoginAddr",
-            "outputs": [
-                {
-                    "name": "",
-                    "type": "address"
-                }
-            ],
-            "payable": false,
-            "stateMutability": "view",
-            "type": "function"
-        },
-        {
-            "constant": false,
-            "inputs": [],
-            "name": "ShowAll",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-        },
-        {
-            "constant": false,
-            "inputs": [
                 {
                     "name": "buyer",
                     "type": "address"
                 }
             ],
-            "name": "BuyToken",
-            "outputs": [],
-            "payable": true,
-            "stateMutability": "payable",
-            "type": "function"
-        },
-        {
-            "inputs": [
+            "name": "transferFrom",
+            "outputs": [
                 {
-                    "name": "_LotteryToken",
-                    "type": "address"
-                },
-                {
-                    "name": "_rate",
-                    "type": "uint256"
+                    "name": "",
+                    "type": "bool"
                 }
             ],
             "payable": false,
             "stateMutability": "nonpayable",
-            "type": "constructor"
+            "type": "function"
         },
         {
-            "payable": true,
-            "stateMutability": "payable",
-            "type": "fallback"
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "who",
+                    "type": "address"
+                }
+            ],
+            "name": "balOf",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "to",
+                    "type": "address"
+                },
+                {
+                    "name": "value",
+                    "type": "uint256"
+                }
+            ],
+            "name": "transfer",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "constant": true,
+            "inputs": [
+                {
+                    "name": "owner",
+                    "type": "address"
+                },
+                {
+                    "name": "spender",
+                    "type": "address"
+                }
+            ],
+            "name": "allowance",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "uint256"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "view",
+            "type": "function"
+        },
+        {
+            "constant": false,
+            "inputs": [
+                {
+                    "name": "owner",
+                    "type": "address"
+                },
+                {
+                    "name": "spender",
+                    "type": "address"
+                },
+                {
+                    "name": "value",
+                    "type": "uint256"
+                }
+            ],
+            "name": "approve",
+            "outputs": [
+                {
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "payable": false,
+            "stateMutability": "nonpayable",
+            "type": "function"
         },
         {
             "anonymous": false,
             "inputs": [
                 {
-                    "indexed": false,
-                    "name": "index",
-                    "type": "uint256"
+                    "indexed": true,
+                    "name": "_from",
+                    "type": "address"
                 },
                 {
-                    "indexed": false,
-                    "name": "bettor_address",
+                    "indexed": true,
+                    "name": "to",
                     "type": "address"
                 },
                 {
                     "indexed": false,
-                    "name": "amount",
+                    "name": "value",
                     "type": "uint256"
-                },
-                {
-                    "indexed": false,
-                    "name": "numbers",
-                    "type": "uint256[6]"
                 }
             ],
-            "name": "BET",
+            "name": "Transfer",
             "type": "event"
         },
         {
             "anonymous": false,
             "inputs": [
                 {
-                    "indexed": false,
-                    "name": "index",
-                    "type": "uint256"
+                    "indexed": true,
+                    "name": "owner",
+                    "type": "address"
                 },
                 {
-                    "indexed": false,
-                    "name": "bettor_address",
+                    "indexed": true,
+                    "name": "spender",
                     "type": "address"
                 },
                 {
                     "indexed": false,
-                    "name": "amount",
+                    "name": "value",
                     "type": "uint256"
-                },
-                {
-                    "indexed": false,
-                    "name": "numbers",
-                    "type": "uint256[6]"
                 }
             ],
-            "name": "CHECKBET",
+            "name": "Approval",
             "type": "event"
         }
     ]
@@ -354,7 +193,7 @@ class Pull extends Component {
         super (props);
 
         this.state = {
-            LotteryContractInstance: LotteryContract.at('0x3868775203cc0b4bae85a46c14df40b1568c7312'),
+            LotteryContractInstance: LotteryContract.at('0xb4bcdf86e7a36a14292d6443e13e2f39be2dba24'),
             destructed: false,
             selected: []
         };
