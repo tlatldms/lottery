@@ -281,14 +281,25 @@ contract Lottery {
     }
 
  // address, betting information, timestamp?
-    function GetMyBetinfo() public returns (bool) {
-        for(uint i=_head; i<_tail; i++) {
+    function GetMyBetinfo() public returns (address, uint256, uint256[]) {
+        
+		uint256[] retNum;
+		uint8 retIdx = 0;
+
+		address retBetAddr;
+		uint256 retAmount;
+		for(uint i=_head; i<_tail; i++) {
             if(bets[i].bettor_address == msg.sender) {
-                emit CHECKBET(i, bets[i].bettor_address, bets[i].amount, bets[i].numbers);
+				retNum[retIdx++] = bets[i].numbers;
+				retBetAddr = bets[i].bettor_address;
+				retAmount = bets[i].amount;
+                //emit CHECKBET(i, bets[i].bettor_address, bets[i].amount, bets[i].numbers);
                 return true;
             }
         }
-        return false;
+		
+		
+        return (retBetAddr, retAmount, retNum);
     }
 
 
