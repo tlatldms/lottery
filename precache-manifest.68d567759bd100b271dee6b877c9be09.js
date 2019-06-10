@@ -1,19 +1,19 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "321c6efb5453d583e4fc87e797ad5d01",
+    "revision": "f4077be9ef1787dff8473ce2782c1d9d",
     "url": "/lottery/index.html"
   },
   {
-    "revision": "5f2b33368dd78abe05ad",
-    "url": "/lottery/static/css/main.4cfee7b2.chunk.css"
+    "revision": "f0aa488ff38cb21e6c39",
+    "url": "/lottery/static/css/main.51c456cc.chunk.css"
   },
   {
-    "revision": "6fb402594ea3a0da6e07",
-    "url": "/lottery/static/js/2.e15ff42a.chunk.js"
+    "revision": "019d6aeeb03a9f4f6556",
+    "url": "/lottery/static/js/2.af369d88.chunk.js"
   },
   {
-    "revision": "5f2b33368dd78abe05ad",
-    "url": "/lottery/static/js/main.bd4f41f8.chunk.js"
+    "revision": "f0aa488ff38cb21e6c39",
+    "url": "/lottery/static/js/main.01770bfb.chunk.js"
   },
   {
     "revision": "e6e0c3a0d9178fa18b34",
