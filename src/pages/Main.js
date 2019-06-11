@@ -652,7 +652,7 @@ class Main extends Component {
         super (props);
 
         this.state = {
-            LotteryContractInstance: LotteryContract.at('0xc810dcceca8af00cd05b338e73e1f90d6a9ceb35'),
+            LotteryContractInstance: LotteryContract.at('0x2a36856354a4c1abe0803d8fd7c6aec5e579af12'),
             destructed: false
         };
     } 
@@ -768,15 +768,9 @@ class Main extends Component {
             <h1><center>Hello Lottery World</center></h1>
             <br />
             <center><img id="input" src={Logo} alt=""/></center>
-            현재 로그인 유저 이름: {this.state.nowLoginName} <br />
-            현재 로그인 유저 주소: {this.state.nowLoginAddr}
-            <br />
-            <button onClick={this.handleLogout}>로그아웃</button>
-            {this.state.nowLoginName ? <Link to="/pull">뽑기페이지로</Link> : "로그인이 필요합니다"}
-            <br />
-           {this.state.contractOwner}
-            <br/>
             
+            <br />
+           
             <center>
             <table>
                   <tr>

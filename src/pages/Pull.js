@@ -654,7 +654,7 @@ class Pull extends Component {
         super (props);
 
         this.state = {
-            LotteryContractInstance: LotteryContract.at('0xc810dcceca8af00cd05b338e73e1f90d6a9ceb35'),
+            LotteryContractInstance: LotteryContract.at('0x2a36856354a4c1abe0803d8fd7c6aec5e579af12'),
             destructed: false,
             selected: []
         };
@@ -667,12 +667,13 @@ class Pull extends Component {
         this.getLoginName();
         this.getLotteryState();
         this.getAnswer();
-        this.getIfWin();
+        
         this.getIfDistributed();
 
         this.interval = setInterval(() => {
             this.nowBalance();
             this.getReward();
+            this.getIfWin();
         }, 2000);
     }
 
@@ -682,7 +683,8 @@ class Pull extends Component {
         if (selected.indexOf(e.target.value) != -1 ) {
             const deleted=selected.filter(x=> x != e.target.value)
             this.setState({
-                selected: deleted
+                selected: deleted,
+                
             })
         }
         else if (selected.length >= 6 ) {
@@ -859,6 +861,7 @@ class Pull extends Component {
             this.setState({
                 isDistributed: bol
             })
+            console.log("ttttttttt",bol);
         })
     }
     getAnswer = () => {
@@ -917,7 +920,17 @@ class Pull extends Component {
             })
         });
     }
-
+    distribute=()=>{
+        const { Distribute} = this.state.LotteryContractInstance;
+        Distribute(
+            {
+                gas: 300000,
+                from: window.web3.eth.accounts[0],
+                value: window.web3.toWei(0,'ether')
+            },(err, result) => {
+                console.log(err, result);
+        });
+    }
 
     onCloseModal = () => {
         this.setState({ isModalOpen: false });
@@ -940,7 +953,7 @@ class Pull extends Component {
             <Modal open={this.state.isModalOpen} onClose={this.onCloseModal} center style={nopad}>
                 <div className="popup">
                     <br/><br/>
-                    1 ether = 7 LTK
+                    1 ether = 10 LTK
                     <br />
                     <input onChange={this.handleChange} name="howMuch" placeholder="How much to buy?"/>
                     <button onClick={this.buyToken}>구입</button>
@@ -994,7 +1007,7 @@ class Pull extends Component {
                                         <td>　　　</td>
                                         <td><center><button onClick={this.closeLottery} class="btn btn-info" >Close Lottery</button></center></td>
                                         <td>　　　</td>
-                                        <td><center><button onClick={this.closeLottery} class="btn btn-info" >Distribute</button></center></td>
+                                        <td><center><button onClick={this.distribute} class="btn btn-info" >Distribute</button></center></td>
                                     </tr>
                             </table>
                             <br />
@@ -1003,6 +1016,8 @@ class Pull extends Component {
                                     this.setState({isModalOpen2:true})
                                 } else alert("아직 진행중인 Lottery입니다.");
                             }} class="btn btn-warning btn-lg">Result</button></center>
+                            <br/>
+                            <button class="btn btn-info" onClick={this.amIWinFunc}>당첨확인</button>
                         </center>
                     </td>
                     <td>　　　　　　　</td>
