@@ -385,12 +385,12 @@ contract Lottery {
 		answer5 = answer[4];
 		answer6 = answer[5];
 
-		uint256[6] memory test;
-		for(uint i=0; i<6; i++) {
-			test[i] = i+1;
-		}
-		return test;
-		//return answer;
+// 		uint256[6] memory test;
+// 		for(uint i=0; i<6; i++) {
+// 			test[i] = i+1;
+// 		}
+// 		return test;
+		return answer;
 	}
 
 
